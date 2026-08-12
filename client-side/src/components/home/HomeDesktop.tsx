@@ -403,7 +403,7 @@ function Contact() {
         <div className="relative mt-auto flex w-full flex-col pt-[1rem]">
           <a
             href={`mailto:${CONTACT.email}`}
-            className="flex w-full items-center justify-center bg-plum px-[1.75rem] py-[1.6875rem] text-[1.125rem] font-semibold leading-[1.6875rem] whitespace-nowrap text-white drop-shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)]"
+            className="btn-fill-center btn-fill-invert flex w-full items-center justify-center bg-plum px-[1.75rem] py-[1.6875rem] text-[1.125rem] font-semibold leading-[1.6875rem] whitespace-nowrap text-white shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:text-plum focus-visible:text-plum"
           >
             {HERO.ctaDesktop}
           </a>
