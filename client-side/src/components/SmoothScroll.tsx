@@ -32,7 +32,7 @@ export function SmoothScroll() {
       //   0.14 -> ~20 frames (0.33s)
       //   0.08 -> ~36 frames (0.60s)   <- current
       //   0.05 -> ~58 frames (0.97s), very floaty
-      lerp: 0.1,
+      lerp: 0.04,
       smoothWheel: true,
       // Distance covered per wheel tick, as a multiple of the browser's native
       // step. Raising this is what makes one flick travel further.
