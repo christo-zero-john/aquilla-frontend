@@ -17,10 +17,10 @@ import {
 /**
  * Desktop composition — Figma node 1:438, drawn on a 1440 frame.
  *
- * Every design pixel is expressed in rem against a root font size that tracks
- * the viewport (see globals.css), so the whole frame scales to fill 100vw and
- * stays proportional — the same thing Figma's canvas does when it fits a frame
- * to the window. At a 1440 viewport 1rem === 16px and the render is 1:1.
+ * Design values are in rem against a fixed 16px root, so 1rem === 1 design
+ * pixel and the render is 1:1 with the frame at 1440. Section backgrounds run
+ * full-bleed and their columns are flexible, so the page fills 100vw at any
+ * width and compresses below 1440 rather than overflowing and being clipped.
  */
 
 function Wordmark({ tone = "dark" }: { tone?: "dark" | "light" }) {
@@ -71,26 +71,37 @@ function NavBar() {
 function Hero() {
   return (
     <section className="relative h-[43.8125rem] w-full overflow-hidden bg-plum">
-      {/* Dark panel, pinned right at the design width so the badge holds position. */}
+      {/* Dark panel. Width is the design's 618.98/1440 as a percentage so the
+          split holds at any viewport instead of a fixed width that can overrun
+          a narrow one and get clipped. */}
       <div
-        className="absolute inset-y-0 right-0 w-[38.68625rem] overflow-hidden"
+        className="absolute inset-y-0 right-0 w-[42.985%] overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(208.956deg, rgb(42,42,42) 9.2845%, rgb(0,0,0) 66.561%)",
         }}
       >
-        <img
-          src="/assets/hero/texture.png"
-          alt=""
-          className="absolute left-0 top-[0.5025rem] h-[43.309812rem] w-[44.288438rem] max-w-none object-bottom opacity-10"
+        {/* Tiled at its natural size rather than stretched to cover, so the
+            pattern keeps its own scale and repeats across the panel. */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url(/assets/hero/texture.png)",
+            backgroundRepeat: "repeat",
+            backgroundSize: "559px 605px",
+          }}
         />
-        <div className="absolute left-[11.80875rem] top-[13.41rem]">
+        {/* Badge centre sits at 52.1% of the panel in the design. */}
+        <div className="absolute left-[52.1%] top-[13.41rem] -translate-x-1/2">
           <HeroPlaque />
         </div>
       </div>
 
       {/* Statement */}
-      <div className="absolute left-[4.61rem] top-[calc(50%-1.7575rem)] w-[32.049813rem] -translate-y-1/2">
+      {/* Gutter and column are the design's 73.76/1440 and 512.8/1440, kept as
+          percentages so the statement never runs under the dark panel. */}
+      <div className="absolute left-[5.12%] top-[calc(50%-1.7575rem)] w-[35.6%] -translate-y-1/2">
         <div className="flex flex-col gap-[2.5rem]">
           <div className="flex flex-col gap-[1.75rem]">
             <h1 className="text-[3.5rem] leading-[3.5rem] tracking-[-0.14rem] text-white">
@@ -122,8 +133,8 @@ function About() {
       id="about"
       className="flex h-[38.9375rem] w-full items-center justify-center overflow-hidden px-[5rem]"
     >
-      <div className="flex w-full items-center justify-between">
-        <p className="w-[41.835938rem] text-[2rem] leading-[1.48] text-black">
+      <div className="flex w-full items-center justify-between gap-[3rem]">
+        <p className="min-w-0 max-w-[41.835938rem] flex-1 text-[2rem] leading-[1.48] text-black">
           {ABOUT_STATEMENT}
         </p>
         <AboutCarousel />
@@ -139,10 +150,10 @@ function Services() {
       className="flex w-full flex-col items-start gap-[4rem] overflow-hidden bg-mist px-[5rem] py-[7.5rem]"
     >
       <div className="flex w-full flex-col items-center gap-[1rem] rounded-[1.25rem] p-[2.5rem] text-center">
-        <h2 className="w-[40rem] text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
+        <h2 className="w-full max-w-[40rem] text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
           {SERVICES_HEADING.desktop}
         </h2>
-        <p className="w-[40rem] font-jakarta text-[1rem] leading-[1.5rem] text-body">
+        <p className="w-full max-w-[40rem] font-jakarta text-[1rem] leading-[1.5rem] text-body">
           {SERVICES_HEADING.body}
         </p>
       </div>
@@ -175,8 +186,12 @@ function Services() {
                 style={{ backgroundImage: service.scrim }}
               />
             </div>
-            <div className="h-[16.5rem] w-full shrink-0 rounded-br-[43.75rem]" />
-            <div className="flex h-[6.625rem] w-full shrink-0 items-start px-[1.5rem]">
+            <div className="relative h-[16.5rem] w-full shrink-0 rounded-br-[43.75rem]" />
+            {/* `relative` is load-bearing: the art sits in an absolutely
+                positioned overlay, which would otherwise paint over this
+                static text. */}
+            <div className="relative flex h-[6.625rem] w-full shrink-0 items-start px-[1.5rem]">
+
               <div className="flex min-w-px flex-1 flex-col gap-[0.75rem] text-white">
                 <h3 className="text-[1.25rem] font-semibold tracking-[-0.0125rem]">
                   {service.title}
@@ -198,11 +213,11 @@ function Standards() {
       className="flex w-full items-start overflow-hidden bg-cream px-[4.5rem] py-[7.5rem]"
     >
       <div className="flex w-full max-w-[81rem] flex-col gap-[4rem]">
-        <div className="flex items-start gap-[7.5rem]">
-          <h2 className="w-[35rem] text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
+        <div className="flex items-start gap-[4rem] xl:gap-[7.5rem]">
+          <h2 className="w-[35rem] min-w-0 shrink text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
             {STANDARDS_HEADING.title}
           </h2>
-          <p className="w-[26.875rem] text-[1rem] leading-[1.6875rem] text-muted">
+          <p className="w-[26.875rem] min-w-0 shrink text-[1rem] leading-[1.6875rem] text-muted">
             {STANDARDS_HEADING.body}
           </p>
         </div>
@@ -213,15 +228,18 @@ function Standards() {
               key={standard.code}
               className="flex h-[8.25rem] w-full items-center overflow-hidden bg-white pr-[1.125rem]"
             >
-              <div className="flex h-full shrink-0 flex-col justify-center p-[1.5rem]">
-                <div className="w-[20.3125rem]">
-                  <p className="w-[16.98875rem] text-[1.75rem] leading-[2.25rem] text-faint">
+              <div className="flex h-full min-w-0 shrink flex-col justify-center p-[1.5rem]">
+                <div className="w-[20.3125rem] min-w-0">
+                  <p className="w-[16.98875rem] min-w-0 max-w-full text-[1.75rem] leading-[2.25rem] text-faint">
                     {standard.code}
                   </p>
                 </div>
               </div>
-              <div className="flex h-full min-w-px flex-1 items-center gap-[6.75rem]">
-                <div className="flex h-full w-[25.4375rem] shrink-0 flex-col gap-[0.5rem] py-[1.5rem]">
+              {/* Description and image share the remaining track evenly, which
+                  reproduces the design's 407/407 split at 1440 while letting the
+                  row compress on narrower screens instead of overflowing. */}
+              <div className="flex h-full min-w-px flex-1 items-center gap-[3rem] xl:gap-[6.75rem]">
+                <div className="flex h-full min-w-0 flex-1 flex-col gap-[0.5rem] py-[1.5rem]">
                   <div className="w-[18.75rem]">
                     <p className="w-[17.25rem] text-[1.125rem] font-medium leading-[1.6875rem] text-ink">
                       {standard.area}
@@ -231,7 +249,7 @@ function Standards() {
                     {standard.body}
                   </p>
                 </div>
-                <div className="relative h-full w-[25.4375rem] shrink-0 overflow-hidden bg-white">
+                <div className="relative h-full min-w-0 flex-1 overflow-hidden bg-white">
                   <Image
                     src={standard.image}
                     alt=""
@@ -257,9 +275,9 @@ function Contact() {
       className="flex w-full items-start gap-[2rem] bg-white px-[5rem] py-[7.5rem]"
     >
       <div className="flex min-w-px flex-1 flex-col gap-[2rem]">
-        <div className="flex w-[39rem] flex-col gap-[2.5rem] pr-[2.5rem]">
+        <div className="flex w-full max-w-[39rem] flex-col gap-[2.5rem] pr-[2.5rem]">
           <div className="flex flex-col gap-[0.75rem]">
-            <h2 className="w-[33.105688rem] text-[2.5rem] leading-[2.6875rem] tracking-[-0.1rem] text-ink-soft">
+            <h2 className="w-full max-w-[33.105688rem] text-[2.5rem] leading-[2.6875rem] tracking-[-0.1rem] text-ink-soft">
               {CONTACT.headingDesktop}
             </h2>
             <p className="text-[1rem] leading-[1.6] text-body">{CONTACT.body}</p>
@@ -278,7 +296,7 @@ function Contact() {
               {ENQUIRY_CATEGORIES_DESKTOP.map((category, index) => (
                 <div
                   key={`${category}-${index}`}
-                  className="flex w-[36.5rem] items-center gap-[0.75rem] border-b border-[rgba(0,0,0,0.09)] py-[0.75rem]"
+                  className="flex w-full items-center gap-[0.75rem] border-b border-[rgba(0,0,0,0.09)] py-[0.75rem]"
                 >
                   <div className="flex size-[1.5rem] shrink-0 items-center justify-center overflow-hidden bg-chip">
                     <img
@@ -309,7 +327,7 @@ function Contact() {
       </div>
 
       <div
-        className="relative flex w-[39rem] shrink-0 flex-col gap-[2.5rem] self-stretch overflow-hidden p-[3rem]"
+        className="relative flex w-[39rem] min-w-0 shrink flex-col gap-[2.5rem] self-stretch overflow-hidden p-[3rem]"
         style={{
           backgroundImage:
             "linear-gradient(rgba(255,255,255,0.56), rgba(255,255,255,0.56)), linear-gradient(rgb(242,239,233), rgb(242,239,233))",
