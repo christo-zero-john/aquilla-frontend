@@ -320,7 +320,7 @@ function Footer() {
           <a
             key={item}
             href="#"
-            className="font-jakarta text-[0.8125rem] text-on-dark-soft"
+            className="link-underline link-underline-light font-jakarta text-[0.8125rem] text-on-dark-soft transition-colors duration-300 hover:text-white focus-visible:text-white"
           >
             {item}
           </a>
