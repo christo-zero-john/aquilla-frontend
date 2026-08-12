@@ -431,11 +431,11 @@ function Footer() {
             <p className="font-outfit font-bold text-white">RESOURCES</p>
             {FOOTER.resources.map((item) => (
               <a
-                key={item}
-                href="#"
+                key={item.label}
+                href={item.href}
                 className="link-underline link-underline-light font-jakarta text-on-dark-soft transition-colors duration-300 hover:text-white focus-visible:text-white"
               >
-                {item}
+                {item.label}
               </a>
             ))}
           </div>
@@ -448,11 +448,17 @@ function Footer() {
               {FOOTER.socials.map((social) => (
                 <a
                   key={social.name}
-                  href="#"
+                  href={social.href}
                   aria-label={social.name}
-                  className="flex size-[2.25rem] items-center justify-center rounded-[1.125rem] border border-line bg-white"
+                  className="btn-fill-center flex size-[2.25rem] items-center justify-center rounded-[1.125rem] border border-line bg-white text-body hover:border-plum hover:text-white focus-visible:border-plum focus-visible:text-white"
                 >
-                  <img src={social.icon} alt="" className="size-[0.875rem]" />
+                  <span
+                    aria-hidden
+                    className="icon-mask size-[0.875rem]"
+                    style={
+                      { "--icon": `url(${social.icon})` } as React.CSSProperties
+                    }
+                  />
                 </a>
               ))}
             </div>
@@ -464,7 +470,11 @@ function Footer() {
         <p>{FOOTER.copyright}</p>
         <div className="flex items-start gap-[1.5rem]">
           {FOOTER.legalDesktop.map((item) => (
-            <a key={item} href="#">
+            <a
+              key={item}
+              href="#"
+              className="link-underline link-underline-light transition-colors duration-300 hover:text-white focus-visible:text-white"
+            >
               {item}
             </a>
           ))}
