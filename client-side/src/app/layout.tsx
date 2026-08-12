@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Outfit, Plus_Jakarta_Sans } from "next/font/google";
+import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
 
 // The three families the Figma file uses.
@@ -33,7 +34,10 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geist.variable} ${jakarta.variable} ${outfit.variable} h-full`}
     >
-      <body className="min-h-full">{children}</body>
+      <body className="min-h-full">
+        <SmoothScroll />
+        {children}
+      </body>
     </html>
   );
 }
