@@ -17,9 +17,9 @@ import {
  *
  * This is a separate composition rather than a reflow of the desktop frame:
  * the hero stacks, services become bordered cards, standards become badged
- * cards, and the standards list stops one row short. Design pixels are in rem
- * against the viewport-tracking root font size (see globals.css), so the 374
- * frame scales to fill the screen and stays proportional.
+ * cards, and the standards list stops one row short. Design values are in rem
+ * against a fixed 16px root, so 1rem === 1 design pixel; blocks are full-width
+ * so the frame fills any handset.
  */
 
 /** The badge is 141.003 wide on this frame, against 267.158 on desktop. */
@@ -79,12 +79,18 @@ function Hero() {
             "linear-gradient(118.466deg, rgb(42,42,42) 9.2845%, rgb(0,0,0) 66.561%)",
         }}
       >
-        <img
-          src="/assets/hero/texture.png"
-          alt=""
-          className="absolute left-0 top-[0.2325rem] h-[22.8585rem] w-[23.375rem] max-w-none object-bottom opacity-10"
+        {/* Tiled at natural size, matching the desktop panel. */}
+        <div
+          aria-hidden
+          className="absolute inset-0"
+          style={{
+            backgroundImage: "url(/assets/hero/texture.png)",
+            backgroundRepeat: "repeat",
+            backgroundSize: "559px 605px",
+          }}
         />
-        <div className="absolute left-[6.93625rem] top-[5.956875rem]">
+        {/* Badge centre sits at 48.5% of the frame in the design. */}
+        <div className="absolute left-[48.5%] top-[5.956875rem] -translate-x-1/2">
           <HeroPlaque width={PLAQUE_WIDTH} />
         </div>
       </div>
