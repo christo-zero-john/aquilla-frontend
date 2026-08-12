@@ -210,6 +210,22 @@
   .link-underline-light::after {
     background: #ffffff;
   }
+
+  /* The social SVGs have #333 baked into their paths, so they cannot be
+     recoloured as images. Painting them as a mask over `currentColor` instead
+     lets the icon follow the link's text colour on hover. */
+  .icon-mask {
+    background-color: currentColor;
+    -webkit-mask-image: var(--icon);
+    mask-image: var(--icon);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    transition: background-color 260ms var(--ease-out-quint);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
