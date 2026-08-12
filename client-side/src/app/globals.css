@@ -48,36 +48,29 @@
    Base
 --------------------------------------------------------------------------- */
 
-/* These must live in @layer base. Unlayered rules outrank every layered one,
-   so an unlayered `img { max-width: 100% }` would silently beat Tailwind's
-   `max-w-none` utility and clamp the design's deliberately oversized art. */
 /* ---------------------------------------------------------------------------
-   Fluid scale
-   Every design value in the page is written in rem, so the root font size is
-   the single dial that scales the whole composition. Each frame is divided by
-   its own design width over 16 (1440/16 = 90, 374/16 = 23.375), which makes
-   1rem equal exactly 1 design pixel at the design width and scale linearly
-   either side of it. This is what Figma's canvas does when it fits a frame to
-   the window — without it a true-1440px render looks small and leaves the
-   viewport half empty.
+   Scale
+   Fixed 16px root, so 1rem === 1 design pixel everywhere and type renders at
+   exactly the size the Figma file specifies.
 
-   The clamps stop the extremes: text staying legible on a small phone, and the
-   layout not ballooning on an ultra-wide monitor. Raise the upper bound to let
-   it keep filling wider screens.
+   An earlier version drove this off 100vw so the whole frame scaled to fill
+   the viewport, mimicking Figma's fit-to-window canvas. It is not worth it:
+   type size ends up coupled to the window, so the same page reads tiny on one
+   monitor and enormous on another, and any fixed-width element sized in rem
+   can outgrow the viewport and get clipped.
+
+   Filling the screen is handled by layout instead — section backgrounds run
+   full-bleed and their contents are fluid between the design's gutters. That
+   fills 100vw at any width without touching type size.
 --------------------------------------------------------------------------- */
 
 :root {
-  /* Mobile frame: 374 wide. */
-  font-size: clamp(13px, calc(100vw / 23.375), 18px);
+  font-size: 16px;
 }
 
-@media (min-width: 1024px) {
-  :root {
-    /* Desktop frame: 1440 wide. 1rem === 1 design px at exactly 1440. */
-    font-size: clamp(11px, calc(100vw / 90), 24px);
-  }
-}
-
+/* These rules must stay inside @layer base. Unlayered rules outrank every
+   layered one, so an unlayered `img { max-width: 100% }` silently beats
+   Tailwind's `max-w-none` utility and clamps the design's oversized art. */
 @layer base {
   body {
     background: #ffffff;
