@@ -298,8 +298,10 @@ function Footer() {
     <footer className="flex w-full flex-col gap-[2rem] bg-plum-deep px-[1rem] pb-[1.5rem] pt-[2.5rem]">
       <div className="flex flex-col gap-[0.75rem]">
         <div className="flex items-center gap-[0.5rem]">
+          {/* Shares the desktop footer's light mark. Figma's 24px export of
+              this node dropped the glyph and clipped to a white square. */}
           <img
-            src="/assets/brand/aquila-mark-footer.svg"
+            src="/assets/brand/aquila-mark-light.svg"
             alt=""
             className="size-[1.5rem]"
           />
