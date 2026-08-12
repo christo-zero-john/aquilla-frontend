@@ -44,7 +44,7 @@ function NavBar() {
       </div>
       <a
         href="#contact"
-        className="shrink-0 rounded-[0.25rem] bg-plum-deep px-[1rem] py-[0.5rem] text-[0.75rem] font-semibold whitespace-nowrap text-white"
+        className="btn-fill-center btn-fill-invert shrink-0 rounded-[0.25rem] bg-plum-deep px-[1rem] py-[0.5rem] text-[0.75rem] font-semibold whitespace-nowrap text-white hover:text-plum-deep focus-visible:text-plum-deep"
       >
         Get Quote
       </a>
@@ -66,7 +66,7 @@ function Hero() {
         </div>
         <a
           href="#contact"
-          className="flex items-start justify-center rounded-[0.25rem] border-l-4 border-plum-accent bg-mist px-[1rem] py-[0.75rem] font-jakarta text-[0.9375rem] font-semibold whitespace-nowrap text-ink"
+          className="btn-wipe flex items-start justify-center rounded-[0.25rem] border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1rem] py-[0.75rem] font-jakarta text-[0.9375rem] font-semibold whitespace-nowrap text-ink hover:text-white focus-visible:text-white"
         >
           {HERO.ctaMobile}
         </a>
@@ -284,7 +284,7 @@ function Contact() {
 
         <a
           href={`mailto:${CONTACT.email}`}
-          className="flex w-full items-center justify-center rounded-[0.375rem] bg-plum p-[0.875rem] text-[0.875rem] font-semibold whitespace-nowrap text-white"
+          className="btn-fill-center btn-fill-invert flex w-full items-center justify-center rounded-[0.375rem] bg-plum p-[0.875rem] text-[0.875rem] font-semibold whitespace-nowrap text-white hover:text-plum focus-visible:text-plum"
         >
           Get a Quote Now
         </a>
