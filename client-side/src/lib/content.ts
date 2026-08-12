@@ -205,13 +205,19 @@ export const ENQUIRY_CATEGORIES_MOBILE = [
 export const FOOTER = {
   blurb:
     "Practical compliance planning, documentation systems, and training support across major international management system standards.",
-  resources: ["About Us", "Standards", "Services", "Contact"],
+  resources: [
+    { label: "About Us", href: "#about" },
+    { label: "Standards", href: "#standards" },
+    { label: "Services", href: "#services" },
+    { label: "Contact", href: "#contact" },
+  ],
   copyright: "© 2026 Acquila",
   legalDesktop: ["Privacy Policy", "Terms of Service"],
   legalMobile: ["Privacy Policy", "Terms"],
+  /** No destinations supplied yet — swap `href` when the accounts exist. */
   socials: [
-    { name: "LinkedIn", icon: "/assets/icons/linkedin.svg" },
-    { name: "Twitter", icon: "/assets/icons/twitter.svg" },
-    { name: "Facebook", icon: "/assets/icons/facebook.svg" },
+    { name: "LinkedIn", icon: "/assets/icons/linkedin.svg", href: "#" },
+    { name: "Twitter", icon: "/assets/icons/twitter.svg", href: "#" },
+    { name: "Facebook", icon: "/assets/icons/facebook.svg", href: "#" },
   ],
 } as const;
