@@ -101,6 +101,104 @@
   }
 }
 
+/* ---------------------------------------------------------------------------
+   Interaction
+   Each effect paints from a pseudo-element pinned to the padding box, so it
+   fills the button interior while leaving the borders visible — that is what
+   lets the hero button keep a stroke on top of its own fill.
+   `isolation: isolate` gives each button its own stacking context so the
+   z-index: -1 layer sits behind the label but above the button's background.
+--------------------------------------------------------------------------- */
+
+@layer components {
+  /* Nav CTA: square fill growing out of the centre. */
+  .btn-fill-center {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 1s ease;
+  }
+
+  .btn-fill-center::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-plum);
+    transform: scale(0);
+    transition: transform 1s ease;
+  }
+
+  .btn-fill-center:hover::before,
+  .btn-fill-center:focus-visible::before {
+    transform: scale(1);
+  }
+
+  .btn-fill-center:hover,
+  .btn-fill-center:focus-visible {
+    color: #ffffff;
+  }
+
+  /* Hero CTA: straight wipe, left to right. The right border is transparent, so
+     it renders the button's own background and reads as a stroke in the resting
+     fill colour once the interior has been wiped over. */
+  .btn-wipe {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    transition: color 600ms ease;
+  }
+
+  .btn-wipe::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: var(--color-plum-accent);
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 600ms ease;
+  }
+
+  .btn-wipe:hover::before,
+  .btn-wipe:focus-visible::before {
+    transform: scaleX(1);
+  }
+
+  .btn-wipe:hover,
+  .btn-wipe:focus-visible {
+    color: #ffffff;
+  }
+
+  /* Nav and footer links: underline expanding from the centre. */
+  .link-underline {
+    position: relative;
+  }
+
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.25rem;
+    height: 1px;
+    background: var(--color-plum);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 300ms ease;
+  }
+
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* The footer sits on plum-deep, where a plum underline is near-invisible. */
+  .link-underline-light::after {
+    background: #ffffff;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
