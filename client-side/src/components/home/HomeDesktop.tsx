@@ -51,7 +51,11 @@ function NavBar() {
       </div>
       <nav className="flex items-center gap-[2.5rem] pb-[0.1875rem] text-[1rem] font-medium leading-[1.5rem] text-body">
         {NAV_LINKS.map((link) => (
-          <a key={link} href={`#${link.toLowerCase()}`} className="whitespace-nowrap">
+          <a
+            key={link}
+            href={`#${link.toLowerCase()}`}
+            className="link-underline whitespace-nowrap transition-colors duration-300 hover:text-plum focus-visible:text-plum"
+          >
             {link}
           </a>
         ))}
@@ -59,7 +63,7 @@ function NavBar() {
       <div className="flex items-center">
         <a
           href="#contact"
-          className="flex items-center justify-center border border-[rgba(61,61,61,0.48)] px-[1.75rem] py-[0.875rem] text-[1rem] font-semibold whitespace-nowrap text-[#1f1f1f] drop-shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)]"
+          className="btn-fill-center flex items-center justify-center border border-[rgba(61,61,61,0.48)] px-[1.75rem] py-[0.875rem] text-[1rem] font-semibold whitespace-nowrap text-[#1f1f1f] shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:border-plum hover:text-white focus-visible:border-plum focus-visible:text-white"
         >
           {HERO.ctaDesktop}
         </a>
@@ -113,14 +117,15 @@ function Hero() {
             </h1>
             <p className="text-[1.125rem] leading-[1.6875rem] text-on-dark">{HERO.body}</p>
           </div>
-          <div className="flex items-center self-start border-l-4 border-plum-accent bg-mist">
-            <a
-              href="#contact"
-              className="flex items-center justify-center px-[1.75rem] py-[0.875rem] font-jakarta text-[1rem] font-semibold whitespace-nowrap text-[#242424] drop-shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)]"
-            >
-              {HERO.ctaDesktop}
-            </a>
-          </div>
+          {/* The right border is transparent, so it paints the button's own
+              background — leaving a stroke in the resting fill colour once the
+              wipe has covered the interior. */}
+          <a
+            href="#contact"
+            className="btn-wipe flex items-center justify-center self-start border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1.75rem] py-[0.875rem] font-jakarta text-[1rem] font-semibold whitespace-nowrap text-[#242424] shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:text-white focus-visible:text-white"
+          >
+            {HERO.ctaDesktop}
+          </a>
         </div>
       </div>
     </section>
@@ -428,7 +433,7 @@ function Footer() {
               <a
                 key={item}
                 href="#"
-                className="font-jakarta text-on-dark-soft"
+                className="link-underline link-underline-light font-jakarta text-on-dark-soft transition-colors duration-300 hover:text-white focus-visible:text-white"
               >
                 {item}
               </a>
