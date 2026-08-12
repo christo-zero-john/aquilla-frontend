@@ -1,26 +1,120 @@
 @import "tailwindcss";
 
+/* ---------------------------------------------------------------------------
+   Design tokens — derived from the Acquila Figma file.
+   The file defines no Figma variables, so these are lifted from the literal
+   values in the design and named here so components never carry raw hex.
+--------------------------------------------------------------------------- */
+
+@theme {
+  /* Breakpoints pinned in px. The design switches composition at lg. */
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+
+  /* Brand */
+  --color-plum: #612244;
+  --color-plum-deep: #3e152b;
+  --color-plum-accent: #9b4f79;
+
+  /* Surfaces */
+  --color-cream: #f2efe9;
+  --color-mist: #f5f5f5;
+  --color-chip: #f0efed;
+  --color-line: #e5e7eb;
+
+  /* Text on light */
+  --color-ink: #1f1f1f;
+  --color-ink-soft: #323232;
+  --color-body: #333333;
+  --color-muted: #61575c;
+  --color-faint: #a1a1a1;
+  --color-slate-900: #111827;
+  --color-slate-600: #4b5563;
+
+  /* Text on dark */
+  --color-on-dark: #d2d2d2;
+  --color-on-dark-soft: #e6e6e6;
+  --color-on-dark-faint: #a6a6a6;
+
+  --font-sans: var(--font-geist), system-ui, sans-serif;
+  --font-jakarta: var(--font-jakarta), system-ui, sans-serif;
+  --font-outfit: var(--font-outfit), system-ui, sans-serif;
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+--------------------------------------------------------------------------- */
+
+/* These must live in @layer base. Unlayered rules outrank every layered one,
+   so an unlayered `img { max-width: 100% }` would silently beat Tailwind's
+   `max-w-none` utility and clamp the design's deliberately oversized art. */
+/* ---------------------------------------------------------------------------
+   Fluid scale
+   Every design value in the page is written in rem, so the root font size is
+   the single dial that scales the whole composition. Each frame is divided by
+   its own design width over 16 (1440/16 = 90, 374/16 = 23.375), which makes
+   1rem equal exactly 1 design pixel at the design width and scale linearly
+   either side of it. This is what Figma's canvas does when it fits a frame to
+   the window — without it a true-1440px render looks small and leaves the
+   viewport half empty.
+
+   The clamps stop the extremes: text staying legible on a small phone, and the
+   layout not ballooning on an ultra-wide monitor. Raise the upper bound to let
+   it keep filling wider screens.
+--------------------------------------------------------------------------- */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Mobile frame: 374 wide. */
+  font-size: clamp(13px, calc(100vw / 23.375), 18px);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
+@media (min-width: 1024px) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    /* Desktop frame: 1440 wide. 1rem === 1 design px at exactly 1440. */
+    font-size: clamp(11px, calc(100vw / 90), 24px);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer base {
+  body {
+    background: #ffffff;
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* vw includes the scrollbar; this absorbs the sub-percent difference
+       rather than letting it become a horizontal scrollbar. */
+    overflow-x: hidden;
+  }
+
+  /* Figma lays out at exact pixel positions; browser default image baselines
+     and form-control fonts fight that. Neutralise both. */
+  img,
+  svg,
+  video {
+    display: block;
+    max-width: 100%;
+  }
+
+  button,
+  input,
+  select,
+  textarea {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
