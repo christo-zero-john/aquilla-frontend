@@ -318,11 +318,11 @@ function Footer() {
         <p className="font-outfit text-[0.75rem] font-bold text-white">RESOURCES</p>
         {FOOTER.resources.map((item) => (
           <a
-            key={item}
-            href="#"
+            key={item.label}
+            href={item.href}
             className="link-underline link-underline-light font-jakarta text-[0.8125rem] text-on-dark-soft transition-colors duration-300 hover:text-white focus-visible:text-white"
           >
-            {item}
+            {item.label}
           </a>
         ))}
       </div>
@@ -332,11 +332,17 @@ function Footer() {
           {FOOTER.socials.map((social) => (
             <a
               key={social.name}
-              href="#"
+              href={social.href}
               aria-label={social.name}
-              className="flex size-[1.75rem] items-center justify-center rounded-[6.25rem] bg-white"
+              className="btn-fill-center flex size-[1.75rem] items-center justify-center rounded-[6.25rem] bg-white text-body hover:text-white focus-visible:text-white"
             >
-              <img src={social.icon} alt="" className="size-[0.75rem]" />
+              <span
+                aria-hidden
+                className="icon-mask size-[0.75rem]"
+                style={
+                  { "--icon": `url(${social.icon})` } as React.CSSProperties
+                }
+              />
             </a>
           ))}
         </div>
@@ -344,7 +350,11 @@ function Footer() {
           <p>{FOOTER.copyright}</p>
           <div className="flex items-start gap-[0.75rem]">
             {FOOTER.legalMobile.map((item) => (
-              <a key={item} href="#">
+              <a
+                key={item}
+                href="#"
+                className="link-underline link-underline-light transition-colors duration-300 hover:text-white focus-visible:text-white"
+              >
                 {item}
               </a>
             ))}
