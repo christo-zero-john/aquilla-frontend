@@ -212,7 +212,7 @@ function Standards() {
       id="standards"
       className="flex w-full items-start overflow-hidden bg-cream px-[4.5rem] py-[7.5rem]"
     >
-      <div className="flex w-full max-w-[81rem] flex-col gap-[4rem]">
+      <div className="flex w-full flex-col gap-[4rem]">
         <div className="flex items-start gap-[4rem] xl:gap-[7.5rem]">
           <h2 className="w-[35rem] min-w-0 shrink text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
             {STANDARDS_HEADING.title}
@@ -226,7 +226,7 @@ function Standards() {
           {STANDARDS.map((standard) => (
             <div
               key={standard.code}
-              className="flex h-[8.25rem] w-full items-center overflow-hidden bg-white pr-[1.125rem]"
+              className="flex h-[8.25rem] w-full items-center overflow-hidden bg-white"
             >
               <div className="flex h-full min-w-0 shrink flex-col justify-center p-[1.5rem]">
                 <div className="w-[20.3125rem] min-w-0">
@@ -392,7 +392,10 @@ function Contact() {
           </div>
         </div>
 
-        <div className="relative flex w-full flex-col pt-[1rem]">
+        {/* mt-auto absorbs the leftover height, so the button sits on the card
+            floor and the gap above it grows with the card instead of being a
+            fixed step after the contact details. */}
+        <div className="relative mt-auto flex w-full flex-col pt-[1rem]">
           <a
             href={`mailto:${CONTACT.email}`}
             className="flex w-full items-center justify-center bg-plum px-[1.75rem] py-[1.6875rem] text-[1.125rem] font-semibold leading-[1.6875rem] whitespace-nowrap text-white drop-shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)]"
@@ -410,7 +413,7 @@ function Footer() {
     <footer className="flex w-full flex-col gap-[4rem] bg-plum-deep px-[5rem] pb-[2.5rem] pt-[5rem]">
       <div className="flex w-full items-start justify-between">
         <div className="flex w-[22.5rem] flex-col gap-[1rem]">
-          <div className="flex h-[4.6875rem] flex-col items-center justify-center py-[0.875rem]">
+          <div className="flex h-[4.6875rem] flex-col items-start justify-center py-[0.875rem]">
             <Wordmark tone="light" />
           </div>
           <p className="font-jakarta text-[0.875rem] leading-[1.5] text-on-dark-soft">
