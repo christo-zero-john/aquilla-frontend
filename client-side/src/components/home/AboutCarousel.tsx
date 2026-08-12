@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion, type Easing } from "motion/react";
+import { useRef } from "react";
+import { motion, useInView, useReducedMotion, type Easing } from "motion/react";
 import { CAROUSEL } from "@/lib/content";
 
 /**
@@ -20,15 +21,25 @@ const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 const FRAME_W = `${345.148 / 16}rem`;
 const FRAME_H = `${322.881 / 16}rem`;
 
-/** Reveal offsets are design pixels within the frame, so they scale too. */
+/**
+ * Reveal offset, in design pixels. Applied about the default centre origin,
+ * this is what starts each image small in the bottom-right corner: scaling to
+ * 0.15 about the centre, then translating by this, puts the image's centre at
+ * (316, 296) in the 345x323 frame — its bottom-right corner.
+ */
 const OFFSET_X = 143.612 / 16;
 const OFFSET_Y = 134.385 / 16;
 
 export function AboutCarousel() {
   const reduceMotion = useReducedMotion();
+  const frameRef = useRef<HTMLDivElement>(null);
+  // Five large images tweening forever costs frames even when nobody can see
+  // them, which shows up as stutter while scrolling elsewhere on the page.
+  const inView = useInView(frameRef, { margin: "200px" });
 
   return (
     <div
+      ref={frameRef}
       className="relative shrink-0 overflow-hidden"
       style={{ width: FRAME_W, height: FRAME_H }}
     >
@@ -74,7 +85,11 @@ export function AboutCarousel() {
               top: "1.03%",
               width: "97.9%",
               height: "97.92%",
-              transformOrigin: "top left",
+              // Origin stays at the default centre — the offset below is what
+              // places the shrunk image in the bottom-right corner.
+              // Promote to its own compositor layer so scaling these large
+              // rasters does not repaint on the main thread each frame.
+              willChange: "transform, opacity",
             }}
             initial={{
               opacity: 0,
@@ -82,12 +97,16 @@ export function AboutCarousel() {
               x: `${OFFSET_X}rem`,
               y: `${OFFSET_Y}rem`,
             }}
-            animate={{
-              opacity: [0, 0, 1, 1],
-              scale: [0.15, 0.15, 1, 1],
-              x: [`${OFFSET_X}rem`, `${OFFSET_X}rem`, "0rem", "0rem"],
-              y: [`${OFFSET_Y}rem`, `${OFFSET_Y}rem`, "0rem", "0rem"],
-            }}
+            animate={
+              inView
+                ? {
+                    opacity: [0, 0, 1, 1],
+                    scale: [0.15, 0.15, 1, 1],
+                    x: [`${OFFSET_X}rem`, `${OFFSET_X}rem`, "0rem", "0rem"],
+                    y: [`${OFFSET_Y}rem`, `${OFFSET_Y}rem`, "0rem", "0rem"],
+                  }
+                : undefined
+            }
             transition={{
               opacity: transition,
               scale: transition,
