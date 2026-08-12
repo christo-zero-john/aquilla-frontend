@@ -147,6 +147,14 @@
     transform: scale(1);
   }
 
+  /* For buttons that already sit on brand colour. Filling them with more brand
+     colour says nothing, so these invert instead: the fill goes white and the
+     label takes the brand colour (set per button, since the resting shade
+     differs). */
+  .btn-fill-invert::before {
+    background: #ffffff;
+  }
+
   /* Hero CTA: straight wipe, left to right. The right border is transparent, so
      it renders the button's own background and reads as a stroke in the resting
      fill colour once the interior has been wiped over. */
