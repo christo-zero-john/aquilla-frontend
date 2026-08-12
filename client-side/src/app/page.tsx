@@ -7,13 +7,16 @@ import { HomeMobile } from "@/components/home/HomeMobile";
  * own tree and swapped at the lg breakpoint rather than reflowed.
  */
 export default function Home() {
+  // Desktop is first in the DOM deliberately: if the stylesheet ever fails to
+  // apply, both trees render and the first one wins, and a desktop visitor
+  // seeing the desktop tree degrades far better than seeing the mobile one.
   return (
     <>
-      <div className="lg:hidden">
-        <HomeMobile />
-      </div>
       <div className="hidden lg:block">
         <HomeDesktop />
+      </div>
+      <div className="lg:hidden">
+        <HomeMobile />
       </div>
     </>
   );
