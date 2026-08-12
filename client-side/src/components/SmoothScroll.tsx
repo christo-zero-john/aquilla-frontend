@@ -64,10 +64,67 @@ export function SmoothScroll() {
       lenis.scrollTo(destination as HTMLElement, { offset: 0 });
     };
 
+    // Lenis only intercepts wheel and touch. Keyboard scrolling bypasses it and
+    // falls through to the browser's instant jump, so those keys are handled
+    // here and routed through the same animation.
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.metaKey || event.ctrlKey || event.altKey) return;
+
+      // Never hijack typing, or keys inside a control that handles them itself.
+      const active = document.activeElement as HTMLElement | null;
+      if (
+        active &&
+        (active.isContentEditable ||
+          ["INPUT", "TEXTAREA", "SELECT", "OPTION"].includes(active.tagName))
+      ) {
+        return;
+      }
+
+      const viewport = window.innerHeight;
+      // Browsers leave a couple of lines of overlap on a page jump so the reader
+      // keeps their place; matching that keeps the behaviour familiar.
+      const page = viewport * 0.9;
+      const step = 100;
+      const current = lenis.animatedScroll ?? window.scrollY;
+      const bottom = lenis.limit ?? document.documentElement.scrollHeight - viewport;
+
+      let target: number | null = null;
+      switch (event.key) {
+        case "ArrowDown":
+          target = current + step;
+          break;
+        case "ArrowUp":
+          target = current - step;
+          break;
+        case "PageDown":
+          target = current + page;
+          break;
+        case "PageUp":
+          target = current - page;
+          break;
+        case "Home":
+          target = 0;
+          break;
+        case "End":
+          target = bottom;
+          break;
+        case " ":
+          target = current + (event.shiftKey ? -page : page);
+          break;
+        default:
+          return;
+      }
+
+      event.preventDefault();
+      lenis.scrollTo(Math.max(0, Math.min(target, bottom)));
+    };
+
     document.addEventListener("click", onClick);
+    window.addEventListener("keydown", onKeyDown);
 
     return () => {
       document.removeEventListener("click", onClick);
+      window.removeEventListener("keydown", onKeyDown);
       cancelAnimationFrame(frame);
       lenis.destroy();
     };
