@@ -66,6 +66,10 @@
 
 :root {
   font-size: 16px;
+
+  /* One easing for every hover in the page. A steep ease-out leaves quickly and
+     settles gently, which reads as considered rather than mechanical. */
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 /* These rules must stay inside @layer base. Unlayered rules outrank every
@@ -111,22 +115,31 @@
 --------------------------------------------------------------------------- */
 
 @layer components {
-  /* Nav CTA: square fill growing out of the centre. */
+  /* Colour changes are applied with Tailwind hover: utilities on the elements
+     themselves, not here — @layer utilities is declared after @layer
+     components, so anything set here loses to a utility regardless of
+     specificity. These classes own only geometry and timing. */
+
+  /* Nav CTA: fill growing out of the centre. */
   .btn-fill-center {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    transition: color 1s ease;
+    transition:
+      color 260ms var(--ease-out-quint),
+      border-color 420ms var(--ease-out-quint);
   }
 
   .btn-fill-center::before {
     content: "";
     position: absolute;
-    inset: 0;
+    /* Overspilled for the same reason as .btn-wipe — see the note there. */
+    inset: -0.25rem;
     z-index: -1;
     background: var(--color-plum);
     transform: scale(0);
-    transition: transform 1s ease;
+    transition: transform 420ms var(--ease-out-quint);
+    backface-visibility: hidden;
   }
 
   .btn-fill-center:hover::before,
@@ -134,40 +147,39 @@
     transform: scale(1);
   }
 
-  .btn-fill-center:hover,
-  .btn-fill-center:focus-visible {
-    color: #ffffff;
-  }
-
   /* Hero CTA: straight wipe, left to right. The right border is transparent, so
      it renders the button's own background and reads as a stroke in the resting
      fill colour once the interior has been wiped over. */
+  /* Hero CTA: straight wipe, left to right, retracting the same way it came. */
   .btn-wipe {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    transition: color 600ms ease;
+    transition: color 200ms var(--ease-out-quint);
   }
 
   .btn-wipe::before {
     content: "";
     position: absolute;
-    inset: 0;
+    /* Deliberately not `inset: 0`. The button's height is fractional, and while
+       the transform is animating the layer is rasterised a sub-pixel short of
+       the box — which shows as a hairline of the pale resting background along
+       the bottom edge that vanishes the moment the fill settles. Overspilling
+       on every side removes the seam; `overflow: hidden` clips the excess back
+       to the padding box, so the borders still paint on top. */
+    inset: -0.25rem;
     z-index: -1;
     background: var(--color-plum-accent);
     transform: scaleX(0);
     transform-origin: left center;
-    transition: transform 600ms ease;
+    transition: transform 480ms var(--ease-out-quint);
+    /* Keeps the layer on whole pixels while it animates. */
+    backface-visibility: hidden;
   }
 
   .btn-wipe:hover::before,
   .btn-wipe:focus-visible::before {
     transform: scaleX(1);
-  }
-
-  .btn-wipe:hover,
-  .btn-wipe:focus-visible {
-    color: #ffffff;
   }
 
   /* Nav and footer links: underline expanding from the centre. */
@@ -180,12 +192,13 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: -0.25rem;
+    bottom: -0.35rem;
     height: 1px;
     background: var(--color-plum);
     transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 300ms ease;
+    /* Grows out of the left edge of the text, following the reading direction. */
+    transform-origin: left center;
+    transition: transform 320ms var(--ease-out-quint);
   }
 
   .link-underline:hover::after,
