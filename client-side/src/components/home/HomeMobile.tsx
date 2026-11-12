@@ -36,8 +36,11 @@ const PLAQUE_WIDTH = 141.003;
 
 function Hero() {
   return (
-    <section className="flex min-h-[48.875rem] w-full flex-col items-start justify-between overflow-hidden bg-plum pb-[1rem] pt-[5.5rem]">
-      <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center justify-center gap-[1.75rem] px-[1.5rem] pb-[5rem]">
+    // Exactly one screen below the sticky header (4.5rem + its 1px border).
+    // svh, not vh, so it does not resize as the browser bar shows and hides.
+    // The statement keeps its own height; the dark panel takes the rest.
+    <section className="flex h-[calc(100svh-4.5625rem)] min-h-[36rem] w-full flex-col overflow-hidden bg-plum">
+      <div className="mx-auto flex w-full max-w-[36rem] shrink-0 flex-col items-center justify-center gap-[1.75rem] px-[1.5rem] pb-[2.5rem] pt-[3rem]">
         <div className="flex w-full flex-col items-start gap-[1rem] text-center">
           <h1 className="w-full text-[1.75rem] leading-[2.125rem] tracking-[-0.035rem] text-white">
             {HERO.headingLines.map((line, i) => (
@@ -61,14 +64,14 @@ function Hero() {
         <a
           href="#contact"
           style={{ "--hero-delay": "640ms" } as React.CSSProperties}
-          className="hero-fade btn-wipe flex min-h-[3rem] items-center justify-center rounded-[0.25rem] border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1rem] py-[0.75rem] font-jakarta text-[0.9375rem] font-semibold whitespace-nowrap text-ink hover:text-white focus-visible:text-white"
+          className="hero-fade btn-raised btn-wipe flex min-h-[3rem] items-center justify-center rounded-[0.25rem] border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1rem] py-[0.75rem] font-jakarta text-[0.9375rem] font-semibold whitespace-nowrap text-ink hover:text-white focus-visible:text-white"
         >
           {HERO.ctaMobile}
         </a>
       </div>
 
       <div
-        className="hero-panel hero-panel--up relative h-[22.375rem] w-full shrink-0"
+        className="hero-panel hero-panel--up relative min-h-[12rem] w-full flex-1"
         style={{
           backgroundImage:
             "linear-gradient(118.466deg, rgb(42,42,42) 9.2845%, rgb(0,0,0) 66.561%)",
@@ -88,8 +91,8 @@ function Hero() {
             }}
           />
         </div>
-        {/* Badge centre sits at 48.5% of the frame in the design. */}
-        <div className="absolute left-[48.5%] top-[5.956875rem] -translate-x-1/2">
+        {/* Centred in whatever height the panel ends up with. */}
+        <div className="absolute inset-0 flex items-center justify-center">
           <div className="hero-plaque">
             <HeroPlaque width={PLAQUE_WIDTH} />
           </div>
@@ -196,8 +199,8 @@ function Standards() {
             key={standard.code}
             className="flex flex-col gap-[1rem] bg-white pb-[1rem] pl-[1rem]"
           >
-            <div className="flex h-[5.75rem] items-stretch justify-start gap-[2px]">
-              <div className="flex min-w-0 flex-1 flex-col justify-between pt-[1rem]">
+            <div className="flex min-h-[5.75rem] items-stretch justify-start gap-[0.75rem]">
+              <div className="flex min-w-0 flex-1 flex-col justify-center gap-[0.25rem] py-[0.75rem]">
                 <p className="text-[1.25rem] leading-[1.5rem] text-faint">
                   {standard.mobileCode}
                 </p>
@@ -281,7 +284,7 @@ function Contact() {
           <p className="text-[1.375rem] leading-[1.8125rem] text-ink">{CONTACT.cardHeading}</p>
 
           <div className="flex flex-col gap-[1rem]">
-            <a href={`mailto:${CONTACT.email}`} className="flex min-h-[2.75rem] items-center gap-[0.75rem]">
+            <a href={`mailto:${CONTACT.email}`} className="flex min-h-[2.75rem] items-center gap-[0.75rem] transition-opacity duration-200 active:opacity-60">
               <span className="flex size-[2rem] shrink-0 items-center justify-center rounded-[6.25rem] bg-[rgba(84,82,82,0.1)] text-plum">
                 <span
                   aria-hidden
@@ -290,7 +293,7 @@ function Contact() {
                 />
               </span>
               <span className="flex min-w-px flex-1 flex-col gap-[0.125rem]">
-                <span className="text-[0.6875rem] leading-[0.875rem] text-muted">EMAIL US</span>
+                <span className="text-[0.75rem] leading-[1rem] tracking-[0.02em] text-muted">EMAIL US</span>
                 <span className="text-[0.875rem] font-medium leading-[1.125rem] break-all text-plum-deep">
                   {CONTACT.email}
                 </span>
@@ -299,7 +302,7 @@ function Contact() {
 
             <a
               href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}
-              className="flex min-h-[2.75rem] items-center gap-[0.75rem]"
+              className="flex min-h-[2.75rem] items-center gap-[0.75rem] transition-opacity duration-200 active:opacity-60"
             >
               <span className="flex size-[2rem] shrink-0 items-center justify-center rounded-[6.25rem] bg-[rgba(84,82,82,0.1)] text-plum">
                 <span
@@ -309,7 +312,7 @@ function Contact() {
                 />
               </span>
               <span className="flex min-w-px flex-1 flex-col gap-[0.125rem]">
-                <span className="text-[0.6875rem] leading-[0.875rem] text-muted">CALL US</span>
+                <span className="text-[0.75rem] leading-[1rem] tracking-[0.02em] text-muted">CALL US</span>
                 <span className="text-[0.875rem] font-medium leading-[1.125rem] whitespace-nowrap text-plum-deep">
                   {CONTACT.phone}
                 </span>
@@ -320,7 +323,7 @@ function Contact() {
 
         <a
           href={`mailto:${CONTACT.email}`}
-          className="btn-fill-center btn-fill-invert flex min-h-[2.875rem] w-full items-center justify-center rounded-[0.375rem] bg-plum p-[0.875rem] text-[0.875rem] font-semibold leading-[1.125rem] whitespace-nowrap text-white hover:text-plum focus-visible:text-plum"
+          className="btn-raised btn-fill-center btn-fill-invert flex min-h-[2.875rem] w-full items-center justify-center rounded-[0.375rem] bg-plum p-[0.875rem] text-[0.875rem] font-semibold leading-[1.125rem] whitespace-nowrap text-white hover:text-plum focus-visible:text-plum"
         >
           Get a Quote Now
         </a>
@@ -382,7 +385,7 @@ export function Footer({ base = "" }: { base?: string } = {}) {
               <a
                 key={item.label}
                 href={item.href}
-                className="link-underline link-underline-light py-[0.75rem] transition-colors duration-300 hover:text-white focus-visible:text-white"
+                className="link-underline link-underline-light py-[0.8125rem] transition-colors duration-300 hover:text-white focus-visible:text-white"
               >
                 {item.label}
               </a>

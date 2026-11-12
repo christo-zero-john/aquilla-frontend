@@ -184,9 +184,14 @@
     backface-visibility: hidden;
   }
 
-  .btn-fill-center:hover::before,
   .btn-fill-center:focus-visible::before {
     transform: translate(-50%, -50%) scale(1);
+  }
+
+  @media (hover: hover) {
+    .btn-fill-center:hover::before {
+      transform: translate(-50%, -50%) scale(1);
+    }
   }
 
   /* For buttons that already sit on brand colour. Filling them with more brand
@@ -233,10 +238,16 @@
     backface-visibility: hidden;
   }
 
-  .btn-wipe:hover::before,
   .btn-wipe:focus-visible::before {
     transform: scaleX(1);
     transform-origin: left center;
+  }
+
+  @media (hover: hover) {
+    .btn-wipe:hover::before {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
   }
 
   /* Nav and footer links: underline expanding from the centre. */
@@ -259,10 +270,16 @@
     transition: transform 460ms var(--ease-out-quint);
   }
 
-  .link-underline:hover::after,
   .link-underline:focus-visible::after {
     transform: scaleX(1);
     transform-origin: left center;
+  }
+
+  @media (hover: hover) {
+    .link-underline:hover::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+    }
   }
 
   .link-underline:focus-visible {
@@ -308,7 +325,6 @@
     transition: transform 560ms var(--ease-out-quint);
   }
 
-  .social-btn:hover,
   .social-btn:focus-visible {
     transform: translateY(-0.1875rem);
     color: #ffffff;
@@ -317,13 +333,28 @@
       0 0 0 0.25rem rgba(255, 255, 255, 0.12);
   }
 
-  .social-btn:hover::before,
+  @media (hover: hover) {
+    .social-btn:hover {
+      transform: translateY(-0.1875rem);
+      color: #ffffff;
+      box-shadow:
+        0 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.55),
+        0 0 0 0.25rem rgba(255, 255, 255, 0.12);
+    }
+  }
+
   .social-btn:focus-visible::before {
     transform: translateY(0) scale(1);
   }
 
+  @media (hover: hover) {
+    .social-btn:hover::before {
+      transform: translateY(0) scale(1);
+    }
+  }
+
   /* A channel with no destination yet: visibly unavailable, no hover. */
-  .social-btn[aria-disabled="true"] {
+  .social-btn.social-btn[aria-disabled="true"] {
     opacity: 0.4;
     cursor: not-allowed;
     transform: none;
@@ -331,20 +362,20 @@
     color: var(--color-body);
   }
 
-  .social-btn[aria-disabled="true"]::before,
-  .social-btn[aria-disabled="true"] .social-btn__icons > * {
+  .social-btn.social-btn[aria-disabled="true"]::before,
+  .social-btn.social-btn[aria-disabled="true"] .social-btn__icons > * {
     transition: none;
   }
 
-  .social-btn[aria-disabled="true"]::before {
+  .social-btn.social-btn[aria-disabled="true"]::before {
     transform: translateY(105%) scale(0.6);
   }
 
-  .social-btn[aria-disabled="true"] .social-btn__icons > :first-child {
+  .social-btn.social-btn[aria-disabled="true"] .social-btn__icons > :first-child {
     transform: none;
   }
 
-  .social-btn[aria-disabled="true"] .social-btn__icons > :last-child {
+  .social-btn.social-btn[aria-disabled="true"] .social-btn__icons > :last-child {
     transform: translateY(140%);
   }
 
@@ -372,15 +403,26 @@
     transform: translateY(140%);
   }
 
-  .social-btn:hover .social-btn__icons > :first-child,
   .social-btn:focus-visible .social-btn__icons > :first-child {
     transform: translateY(-140%);
   }
 
-  .social-btn:hover .social-btn__icons > :last-child,
+  @media (hover: hover) {
+    .social-btn:hover .social-btn__icons > :first-child {
+      transform: translateY(-140%);
+    }
+  }
+
   .social-btn:focus-visible .social-btn__icons > :last-child {
     transform: translateY(0);
     transition-delay: 50ms;
+  }
+
+  @media (hover: hover) {
+    .social-btn:hover .social-btn__icons > :last-child {
+      transform: translateY(0);
+      transition-delay: 50ms;
+    }
   }
 
   /* Hero entrance, pure CSS so it plays on every load before any script.
@@ -512,7 +554,6 @@
       transform 520ms var(--ease-out-quint);
   }
 
-  .legal-next:hover .legal-next__arrow,
   .legal-next:focus-visible .legal-next__arrow {
     max-width: 1.75rem;
     margin-left: 0.625rem;
@@ -520,8 +561,19 @@
     transform: translateX(0);
   }
 
-  .legal-next:hover {
-    color: var(--color-plum-deep);
+  @media (hover: hover) {
+    .legal-next:hover .legal-next__arrow {
+      max-width: 1.75rem;
+      margin-left: 0.625rem;
+      opacity: 1;
+      transform: translateX(0);
+    }
+  }
+
+  @media (hover: hover) {
+    .legal-next:hover {
+      color: var(--color-plum-deep);
+    }
   }
 
   .legal-next:focus-visible {
