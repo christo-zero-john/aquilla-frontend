@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Image from "next/image";
 import { AboutCarousel } from "./AboutCarousel";
 import { HeroPlaque } from "./HeroPlaque";
@@ -43,17 +44,22 @@ function Wordmark({ tone = "dark" }: { tone?: "dark" | "light" }) {
   );
 }
 
-function NavBar() {
+/**
+ * `base` prefixes the section anchors: "" on the home page, so in-page links
+ * stay plain `#id` hashes that SmoothScroll intercepts, and "/" elsewhere
+ * (the legal pages), so they lead back to the home page's sections.
+ */
+export function NavBar({ base = "" }: { base?: string } = {}) {
   return (
     <header className="flex h-[4.6875rem] w-full items-center justify-between border-b border-line bg-white px-[5rem]">
-      <div className="flex h-full flex-col items-center justify-center py-[0.875rem]">
+      <Link href="/" aria-label="Acquila home" className="flex h-full flex-col items-center justify-center py-[0.875rem]">
         <Wordmark />
-      </div>
+      </Link>
       <nav className="flex items-center gap-[2.5rem] pb-[0.1875rem] text-[1rem] font-medium leading-[1.5rem] text-body">
         {NAV_LINKS.map((link) => (
           <a
             key={link}
-            href={`#${link.toLowerCase()}`}
+            href={`${base}#${link.toLowerCase()}`}
             className="link-underline whitespace-nowrap transition-colors duration-300 hover:text-plum focus-visible:text-plum"
           >
             {link}
@@ -62,7 +68,7 @@ function NavBar() {
       </nav>
       <div className="flex items-center">
         <a
-          href="#contact"
+          href={`${base}#contact`}
           className="btn-fill-center flex items-center justify-center border border-[rgba(61,61,61,0.48)] px-[1.75rem] py-[0.875rem] text-[1rem] font-semibold whitespace-nowrap text-[#1f1f1f] shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:border-plum hover:text-white focus-visible:border-plum focus-visible:text-white"
         >
           {HERO.ctaDesktop}
@@ -139,9 +145,16 @@ function About() {
       className="flex h-[38.9375rem] w-full items-center justify-center overflow-hidden px-[5rem]"
     >
       <div className="flex w-full items-center justify-between gap-[3rem]">
-        <p className="min-w-0 max-w-[41.835938rem] flex-1 text-[2rem] leading-[1.48] text-black">
-          {ABOUT_STATEMENT}
-        </p>
+        <div className="flex min-w-0 max-w-[41.835938rem] flex-1 flex-col items-start gap-[1.25rem]">
+          <img
+            src="/assets/brand/aquila-eagle.png"
+            alt=""
+            className="h-[2.233rem] w-[3.113rem] rotate-[0.82deg] object-contain object-left"
+          />
+          <p className="text-[2rem] leading-[1.48] text-black">
+            {ABOUT_STATEMENT}
+          </p>
+        </div>
         <AboutCarousel />
       </div>
     </section>
@@ -293,11 +306,6 @@ function Contact() {
               Enquiry categories
             </p>
             <div className="flex flex-col gap-[0.75rem]">
-              <img
-                src="/assets/icons/phone-call-loop-sm.svg"
-                alt=""
-                className="size-[1.5rem]"
-              />
               {ENQUIRY_CATEGORIES_DESKTOP.map((category, index) => (
                 <div
                   key={`${category}-${index}`}
@@ -413,7 +421,7 @@ function Contact() {
   );
 }
 
-function Footer() {
+export function Footer({ base = "" }: { base?: string } = {}) {
   return (
     <footer className="flex w-full flex-col gap-[4rem] bg-plum-deep px-[5rem] pb-[2.5rem] pt-[5rem]">
       <div className="flex w-full items-start justify-between">
@@ -432,7 +440,7 @@ function Footer() {
             {FOOTER.resources.map((item) => (
               <a
                 key={item.label}
-                href={item.href}
+                href={`${base}${item.href}`}
                 className="link-underline link-underline-light font-jakarta text-on-dark-soft transition-colors duration-300 hover:text-white focus-visible:text-white"
               >
                 {item.label}
@@ -471,11 +479,11 @@ function Footer() {
         <div className="flex items-start gap-[1.5rem]">
           {FOOTER.legalDesktop.map((item) => (
             <a
-              key={item}
-              href="#"
+              key={item.label}
+              href={item.href}
               className="link-underline link-underline-light transition-colors duration-300 hover:text-white focus-visible:text-white"
             >
-              {item}
+              {item.label}
             </a>
           ))}
         </div>

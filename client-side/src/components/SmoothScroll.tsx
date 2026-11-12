@@ -15,12 +15,49 @@ import Lenis from "lenis";
  * reduced motion — hijacking it there is the one case where this actively
  * hurts.
  */
+/**
+ * The page renders a desktop and a phone tree, swapped by CSS, and both carry
+ * the same section ids. A plain `#about` lookup finds the hidden desktop copy
+ * on a phone, so anchors resolve to the copy that is actually laid out.
+ */
+function findVisibleTarget(hash: string): HTMLElement | null {
+  const id = decodeURIComponent(hash.slice(1));
+  if (!id) return null;
+  const matches = Array.from(
+    document.querySelectorAll<HTMLElement>(`[id="${CSS.escape(id)}"]`),
+  );
+  return matches.find((el) => el.getClientRects().length > 0) ?? null;
+}
+
+/** Honours the section's scroll margin, which clears the sticky phone header. */
+function scrollOffset(el: HTMLElement) {
+  return -(parseFloat(getComputedStyle(el).scrollMarginTop) || 0);
+}
+
 export function SmoothScroll() {
   useEffect(() => {
     const reduceMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     ).matches;
-    if (reduceMotion) return;
+
+    // Without Lenis, anchors still need resolving to the visible copy.
+    const onPlainClick = (event: MouseEvent) => {
+      const target = event.target as HTMLElement | null;
+      const link = target?.closest?.('a[href^="#"]') as HTMLAnchorElement | null;
+      const href = link?.getAttribute("href");
+      if (!href || href === "#") return;
+      const destination = findVisibleTarget(href);
+      if (!destination) return;
+      event.preventDefault();
+      window.scrollTo({
+        top: destination.getBoundingClientRect().top + window.scrollY + scrollOffset(destination),
+      });
+    };
+
+    if (reduceMotion) {
+      document.addEventListener("click", onPlainClick);
+      return () => document.removeEventListener("click", onPlainClick);
+    }
 
     const lenis = new Lenis({
       // `lerp` closes a fraction of the remaining distance every frame, so the
@@ -57,11 +94,12 @@ export function SmoothScroll() {
       const id = link.getAttribute("href");
       if (!id || id === "#") return;
 
-      const destination = document.querySelector(id);
+      const destination = findVisibleTarget(id);
       if (!destination) return;
 
       event.preventDefault();
-      lenis.scrollTo(destination as HTMLElement, { offset: 0 });
+      // Lenis reads the target's scroll margin itself, so no extra offset here.
+      lenis.scrollTo(destination, { offset: 0 });
     };
 
     // Lenis only intercepts wheel and touch. Keyboard scrolling bypasses it and

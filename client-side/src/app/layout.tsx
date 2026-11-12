@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
 import "./globals.css";
@@ -26,6 +26,12 @@ export const metadata: Metadata = {
   title: "Acquila — Certification & Management System Support",
   description:
     "Acquila supports organisations across management system and industry standards with practical implementation, training, and readiness support.",
+};
+
+// Phones lay the page out at their own width instead of a zoomed-out desktop canvas.
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

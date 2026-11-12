@@ -17,9 +17,6 @@ const DURATION = 21.6;
 const REVEAL = 0.0556; // fraction of the timeline each reveal occupies
 const EASE: [number, number, number, number] = [0.25, 0.1, 0.25, 1];
 
-/** Design frame, in rem so it tracks the page's fluid root font size. */
-const FRAME_W = `${345.148 / 16}rem`;
-const FRAME_H = `${322.881 / 16}rem`;
 
 /**
  * Reveal offset, in design pixels. Applied about the default centre origin,
@@ -30,7 +27,15 @@ const FRAME_H = `${322.881 / 16}rem`;
 const OFFSET_X = 143.612 / 16;
 const OFFSET_Y = 134.385 / 16;
 
-export function AboutCarousel() {
+/** Natural (desktop) width in design px; `width` scales the whole frame. */
+const NATURAL_W = 345.148;
+
+export function AboutCarousel({ width = NATURAL_W }: { width?: number } = {}) {
+  const k = width / NATURAL_W;
+  const frameW = `${(345.148 * k) / 16}rem`;
+  const frameH = `${(322.881 * k) / 16}rem`;
+  const offX = OFFSET_X * k;
+  const offY = OFFSET_Y * k;
   const reduceMotion = useReducedMotion();
   const frameRef = useRef<HTMLDivElement>(null);
   // Five large images tweening forever costs frames even when nobody can see
@@ -41,7 +46,7 @@ export function AboutCarousel() {
     <div
       ref={frameRef}
       className="relative shrink-0 overflow-hidden"
-      style={{ width: FRAME_W, height: FRAME_H }}
+      style={{ width: frameW, height: frameH }}
     >
       {CAROUSEL.map((image, index) => {
         const start = index / CAROUSEL.length;
@@ -94,16 +99,16 @@ export function AboutCarousel() {
             initial={{
               opacity: 0,
               scale: 0.15,
-              x: `${OFFSET_X}rem`,
-              y: `${OFFSET_Y}rem`,
+              x: `${offX}rem`,
+              y: `${offY}rem`,
             }}
             animate={
               inView
                 ? {
                     opacity: [0, 0, 1, 1],
                     scale: [0.15, 0.15, 1, 1],
-                    x: [`${OFFSET_X}rem`, `${OFFSET_X}rem`, "0rem", "0rem"],
-                    y: [`${OFFSET_Y}rem`, `${OFFSET_Y}rem`, "0rem", "0rem"],
+                    x: [`${offX}rem`, `${offX}rem`, "0rem", "0rem"],
+                    y: [`${offY}rem`, `${offY}rem`, "0rem", "0rem"],
                   }
                 : undefined
             }
