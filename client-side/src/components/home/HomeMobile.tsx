@@ -75,16 +75,15 @@ function Hero() {
         }}
       >
         {/* Tiled at natural size, matching the desktop panel. */}
-        <div aria-hidden className="hero-texture">
-          <div
-            className="hero-texture__sheet"
-            style={{
-              backgroundImage: "url(/assets/hero/texture.png)",
-              backgroundRepeat: "repeat",
-              backgroundSize: "559px 605px",
-            }}
-          />
-        </div>
+        <div
+          aria-hidden
+          className="hero-texture absolute inset-0"
+          style={{
+            backgroundImage: "url(/assets/hero/texture.png)",
+            backgroundRepeat: "repeat",
+            backgroundSize: "559px 605px",
+          }}
+        />
         {/* Badge centre sits at 48.5% of the frame in the design. */}
         <div className="absolute left-[48.5%] top-[5.956875rem] -translate-x-1/2">
           <div className="hero-plaque">

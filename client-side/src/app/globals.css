@@ -395,28 +395,8 @@
     animation-name: hero-panel-up;
   }
 
-  /* The patterned sheet behind the plaque moves in two ways at once. The
-     outer layer turns clockwise, very slowly; it is oversized well past the
-     panel (any rotation stays covered, corners never show). Inside it, the
-     sheet drifts diagonally up and to the right by exactly one tile per
-     loop, so the repeat is seamless. Both are transforms, so they run on
-     the compositor instead of repainting the pattern every frame. */
   .hero-texture {
-    position: absolute;
-    inset: -60%;
-    animation: hero-texture-spin 240s linear infinite;
-    will-change: transform;
-  }
-
-  .hero-texture__sheet {
-    position: absolute;
-    /* One tile of spare sheet on the sides it drifts away from. */
-    top: 0;
-    right: 0;
-    bottom: -605px;
-    left: -559px;
     animation: hero-texture-drift 90s linear infinite;
-    will-change: transform;
   }
 
   .hero-line {
@@ -544,13 +524,8 @@
 }
 
 @keyframes hero-texture-drift {
-  from { transform: translate3d(0, 0, 0); }
-  to { transform: translate3d(559px, -605px, 0); }
-}
-
-@keyframes hero-texture-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+  from { background-position: 0 0; }
+  to { background-position: 559px -605px; }
 }
 
 @keyframes hero-line-in {
