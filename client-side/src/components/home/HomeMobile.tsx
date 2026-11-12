@@ -31,16 +31,15 @@ import {
 
 const SECTION_OFFSET = "scroll-mt-[4.5rem]";
 
-/** The badge is 141.003 wide on this frame, against 267.158 on desktop. */
-const PLAQUE_WIDTH = 141.003;
-
 function Hero() {
   return (
-    // Exactly one screen below the sticky header (4.5rem + its 1px border).
-    // svh, not vh, so it does not resize as the browser bar shows and hides.
-    // The statement keeps its own height; the dark panel takes the rest.
-    <section className="flex h-[calc(100svh-4.5625rem)] min-h-[36rem] w-full flex-col overflow-hidden bg-plum">
-      <div className="mx-auto flex w-full max-w-[36rem] shrink-0 flex-col items-center justify-center gap-[1.75rem] px-[1.5rem] pb-[2.5rem] pt-[3rem]">
+    // One screen below the sticky header (4.5rem + its 1px border), in svh so
+    // it does not resize as the browser bar shows and hides. The dark panel
+    // is half the screen; the statement spreads evenly through the rest. On
+    // a phone too short to fit the copy in that space, the plum area grows
+    // rather than clipping it.
+    <section className="flex min-h-[calc(100svh-4.5625rem)] w-full flex-col overflow-hidden bg-plum">
+      <div className="mx-auto flex w-full max-w-[36rem] flex-1 flex-col items-center justify-evenly gap-[1.25rem] px-[1.5rem] py-[1.5rem]">
         <div className="flex w-full flex-col items-start gap-[1rem] text-center">
           <h1 className="w-full text-[1.75rem] leading-[2.125rem] tracking-[-0.035rem] text-white">
             {HERO.headingLines.map((line, i) => (
@@ -71,7 +70,7 @@ function Hero() {
       </div>
 
       <div
-        className="hero-panel hero-panel--up relative min-h-[12rem] w-full flex-1"
+        className="hero-panel hero-panel--up relative h-[50svh] w-full shrink-0"
         style={{
           backgroundImage:
             "linear-gradient(118.466deg, rgb(42,42,42) 9.2845%, rgb(0,0,0) 66.561%)",
@@ -94,7 +93,8 @@ function Hero() {
         {/* Centred in whatever height the panel ends up with. */}
         <div className="absolute inset-0 flex items-center justify-center">
           <div className="hero-plaque">
-            <HeroPlaque width={PLAQUE_WIDTH} />
+            {/* 70% of the panel's height (50svh); width in proportion. */}
+            <HeroPlaque height="35svh" />
           </div>
         </div>
       </div>
@@ -118,7 +118,8 @@ function Mission() {
           <p className="w-full text-center text-[1.375rem] leading-[1.33] text-black">
             {ABOUT_STATEMENT}
           </p>
-          <AboutCarousel width={190.88} />
+          {/* 90% of the screen width, square (capped on tablets). */}
+          <AboutCarousel square="min(90vw, 36rem)" />
         </div>
       </div>
     </section>

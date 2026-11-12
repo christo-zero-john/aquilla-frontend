@@ -14,13 +14,18 @@
 const NATURAL_W = 267.158;
 const NATURAL_H = 276.873;
 
-export function HeroPlaque({ width = NATURAL_W }: { width?: number }) {
+/**
+ * `width` sizes the badge in design px. `height`, a CSS length, sizes it by
+ * its height instead (e.g. a share of the viewport); the width follows from
+ * the badge's own proportions either way.
+ */
+export function HeroPlaque({ width = NATURAL_W, height }: { width?: number; height?: string }) {
   return (
     <div
       className="relative"
       style={{
         // 1em === 1 design px, expressed in rem so it scales with the page.
-        fontSize: `${width / NATURAL_W / 16}rem`,
+        fontSize: height ? `calc(${height} / ${NATURAL_H})` : `${width / NATURAL_W / 16}rem`,
         width: `${NATURAL_W}em`,
         height: `${NATURAL_H}em`,
       }}

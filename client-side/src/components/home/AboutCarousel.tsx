@@ -36,10 +36,18 @@ const IMAGE_BOX = {
   height: "97.92%",
 } as const;
 
-export function AboutCarousel({ width = NATURAL_W }: { width?: number } = {}) {
+/**
+ * `width` scales the design frame (desktop, its natural 345x323 shape).
+ * `square` overrides that with a square of the given CSS length instead
+ * (mobile: a viewport-relative size), the artwork cropped to fill it.
+ */
+export function AboutCarousel({
+  width = NATURAL_W,
+  square,
+}: { width?: number; square?: string } = {}) {
   const k = width / NATURAL_W;
-  const frameW = `${(NATURAL_W * k) / 16}rem`;
-  const frameH = `${(NATURAL_H * k) / 16}rem`;
+  const frameW = square ?? `${(NATURAL_W * k) / 16}rem`;
+  const frameH = square ?? `${(NATURAL_H * k) / 16}rem`;
 
   const reduceMotion = useReducedMotion();
   const frameRef = useRef<HTMLDivElement>(null);
@@ -70,7 +78,7 @@ export function AboutCarousel({ width = NATURAL_W }: { width?: number } = {}) {
           <img
             src={current.src}
             alt={current.alt}
-            className="absolute max-w-none"
+            className="absolute max-w-none object-cover"
             style={IMAGE_BOX}
           />
         ) : (
@@ -87,7 +95,7 @@ export function AboutCarousel({ width = NATURAL_W }: { width?: number } = {}) {
                 <img
                   src={CAROUSEL[previous].src}
                   alt=""
-                  className="absolute max-w-none"
+                  className="absolute max-w-none object-cover"
                   style={IMAGE_BOX}
                 />
               </motion.div>
@@ -108,7 +116,7 @@ export function AboutCarousel({ width = NATURAL_W }: { width?: number } = {}) {
               <motion.img
                 src={current.src}
                 alt={current.alt}
-                className="absolute max-w-none"
+                className="absolute max-w-none object-cover"
                 style={{ ...IMAGE_BOX, willChange: "transform" }}
                 initial={{ scale: 1.16, y: "4%" }}
                 animate={{ scale: 1, y: "0%" }}
