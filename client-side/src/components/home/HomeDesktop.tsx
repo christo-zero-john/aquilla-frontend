@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { AboutCarousel } from "./AboutCarousel";
+import { SocialButton } from "./SocialButton";
 import { HeroPlaque } from "./HeroPlaque";
 import {
   ABOUT_STATEMENT,
@@ -453,27 +454,12 @@ export function Footer({ base = "" }: { base?: string } = {}) {
             </p>
             <div className="flex items-start gap-[0.75rem]">
               {FOOTER.socials.map((social) => (
-                <a
+                <SocialButton
                   key={social.name}
-                  href={social.href}
-                  aria-label={social.name}
-                  className="social-btn flex size-[2.25rem] items-center justify-center bg-white"
-                >
-                  <span aria-hidden className="social-btn__icons size-[0.875rem]">
-                    <span
-                      className="icon-mask"
-                      style={
-                        { "--icon": `url(${social.icon})` } as React.CSSProperties
-                      }
-                    />
-                    <span
-                      className="icon-mask"
-                      style={
-                        { "--icon": `url(${social.icon})` } as React.CSSProperties
-                      }
-                    />
-                  </span>
-                </a>
+                  social={social}
+                  className="size-[2.25rem]"
+                  iconClassName="size-[0.875rem]"
+                />
               ))}
             </div>
           </div>

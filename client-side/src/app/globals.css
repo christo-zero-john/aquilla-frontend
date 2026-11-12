@@ -322,6 +322,32 @@
     transform: translateY(0) scale(1);
   }
 
+  /* A channel with no destination yet: visibly unavailable, no hover. */
+  .social-btn[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+    color: var(--color-body);
+  }
+
+  .social-btn[aria-disabled="true"]::before,
+  .social-btn[aria-disabled="true"] .social-btn__icons > * {
+    transition: none;
+  }
+
+  .social-btn[aria-disabled="true"]::before {
+    transform: translateY(105%) scale(0.6);
+  }
+
+  .social-btn[aria-disabled="true"] .social-btn__icons > :first-child {
+    transform: none;
+  }
+
+  .social-btn[aria-disabled="true"] .social-btn__icons > :last-child {
+    transform: translateY(140%);
+  }
+
   .social-btn:active {
     transform: translateY(-0.0625rem) scale(0.96);
     transition-duration: 160ms;

@@ -215,11 +215,18 @@ export const FOOTER = {
     { label: "Privacy Policy", href: "/privacy" },
     { label: "Terms", href: "/terms" },
   ],
-  /** No destinations supplied yet — swap `href` when the accounts exist. */
+  /**
+   * Contact channels. `href: null` renders a disabled button — set Instagram's
+   * profile URL here once the account exists.
+   */
   socials: [
-    { name: "LinkedIn", icon: "/assets/icons/linkedin.svg", href: "#" },
-    { name: "Twitter", icon: "/assets/icons/twitter.svg", href: "#" },
-    { name: "Facebook", icon: "/assets/icons/facebook.svg", href: "#" },
+    { name: "Email", icon: "/assets/icons/mail.svg", href: `mailto:${CONTACT.email}` },
+    {
+      name: "WhatsApp",
+      icon: "/assets/icons/whatsapp.svg",
+      href: `https://wa.me/${CONTACT.phone.replace(/\D/g, "")}`,
+    },
+    { name: "Instagram", icon: "/assets/icons/instagram.svg", href: null },
   ],
 } as const;
 
