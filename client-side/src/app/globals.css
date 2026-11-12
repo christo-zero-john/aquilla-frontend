@@ -395,8 +395,19 @@
     animation-name: hero-panel-up;
   }
 
+  /* The patterned sheet drifts diagonally up and to the right. It is moved
+     with transform (one tile per loop, so the repeat is seamless), which the
+     compositor handles; animating background-position instead repainted the
+     whole pattern every frame and cost ~40% of main-thread time while
+     scrolling. The sheet carries one spare tile on the sides it leaves. */
   .hero-texture {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: -605px;
+    left: -559px;
     animation: hero-texture-drift 90s linear infinite;
+    will-change: transform;
   }
 
   .hero-line {
@@ -587,8 +598,8 @@
 }
 
 @keyframes hero-texture-drift {
-  from { background-position: 0 0; }
-  to { background-position: 559px -605px; }
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(559px, -605px, 0); }
 }
 
 @keyframes hero-line-in {

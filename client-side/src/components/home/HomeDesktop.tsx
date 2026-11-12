@@ -96,13 +96,17 @@ function Hero() {
             pattern keeps its own scale and repeats across the panel. */}
         <div
           aria-hidden
-          className="hero-texture absolute inset-0"
-          style={{
-            backgroundImage: "url(/assets/hero/texture.png)",
-            backgroundRepeat: "repeat",
-            backgroundSize: "559px 605px",
-          }}
-        />
+          className="absolute inset-0 overflow-hidden"
+        >
+          <div
+            className="hero-texture"
+            style={{
+              backgroundImage: "url(/assets/hero/texture.png)",
+              backgroundRepeat: "repeat",
+              backgroundSize: "559px 605px",
+            }}
+          />
+        </div>
         {/* Badge centre sits at 52.1% of the panel in the design. */}
         <div className="absolute left-[52.1%] top-[13.41rem] -translate-x-1/2">
           <div className="hero-plaque">

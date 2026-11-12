@@ -64,18 +64,17 @@ export function SmoothScroll() {
       // page keeps tracking the wheel continuously. The duration+easing mode it
       // replaces runs a fixed-length tween per event, which reads as lag once
       // the tween is longer than the gap between wheel ticks.
-      // Settle time to 95% is ln(0.05)/ln(1 - lerp) frames:
-      //   0.20 -> ~13 frames (0.22s), near-native
-      //   0.12 -> ~24 frames (0.40s), close to native, little glide
-      //   0.075 -> ~39 frames (0.65s)  <- current: a visible glide that still follows the hand
-      //   0.04 -> ~73 frames (1.22s), lags the wheel and reads as drag
-      lerp: 0.075,
+      // Measured on one 100px wheel step (headless Chrome, 60fps):
+      //   lerp 0.075 + multiplier 0.85: 126px, 90% at 530ms, settled ~1.07s.
+      //   The page kept creeping for a second after the hand stopped, which
+      //   read as friction, and one small step travelled further than native.
+      // Now: a short glide that lands where the hand stopped. 90% of the move
+      // arrives in ~ln(0.1)/ln(1 - lerp) frames: 0.13 -> ~17 frames (0.28s).
+      lerp: 0.13,
       smoothWheel: true,
-      // Distance covered per wheel tick, as a multiple of the browser's native
-      // step. Raising this is what makes one flick travel further.
-      // Slightly under 1 so each tick travels a little less than native, which
-      // pairs with the glide above to read as calm rather than fast.
-      wheelMultiplier: 0.85,
+      // Distance per wheel step relative to Lenis's own step, tuned so one
+      // step moves about as far as the browser's native scroll (~100px).
+      wheelMultiplier: 0.68,
       // Touch devices already have native momentum; overriding it feels wrong.
       syncTouch: false,
     });
