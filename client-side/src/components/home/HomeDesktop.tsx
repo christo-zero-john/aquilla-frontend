@@ -69,7 +69,7 @@ export function NavBar({ base = "" }: { base?: string } = {}) {
       <div className="flex items-center">
         <a
           href={`${base}#contact`}
-          className="btn-fill-center flex items-center justify-center border border-[rgba(61,61,61,0.48)] px-[1.75rem] py-[0.875rem] text-[1rem] font-semibold whitespace-nowrap text-[#1f1f1f] shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:border-plum hover:text-white focus-visible:border-plum focus-visible:text-white"
+          className="btn-raised btn-fill-center flex items-center justify-center border border-[rgba(61,61,61,0.48)] px-[1.75rem] py-[0.875rem] text-[1rem] font-semibold whitespace-nowrap text-[#1f1f1f] hover:border-plum hover:text-white focus-visible:border-plum focus-visible:text-white"
         >
           {HERO.ctaDesktop}
         </a>
@@ -128,7 +128,7 @@ function Hero() {
               wipe has covered the interior. */}
           <a
             href="#contact"
-            className="btn-wipe flex items-center justify-center self-start border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1.75rem] py-[0.875rem] font-jakarta text-[1rem] font-semibold whitespace-nowrap text-[#242424] shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:text-white focus-visible:text-white"
+            className="btn-raised btn-wipe flex items-center justify-center self-start border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1.75rem] py-[0.875rem] font-jakarta text-[1rem] font-semibold whitespace-nowrap text-[#242424] hover:text-white focus-visible:text-white"
           >
             {HERO.ctaDesktop}
           </a>
@@ -176,11 +176,11 @@ function Services() {
         </p>
       </div>
 
-      <div className="flex w-full items-start gap-[0.5rem]">
+      <div className="flex w-full items-stretch gap-[0.5rem]">
         {SERVICES.map((service) => (
           <article
             key={service.title}
-            className="relative flex h-[28.5625rem] min-w-px flex-1 flex-col items-start justify-end gap-[2.1875rem] overflow-hidden pb-[1.5rem]"
+            className="relative flex min-h-[28.5625rem] min-w-px flex-1 flex-col items-start justify-end gap-[2.1875rem] overflow-hidden pb-[1.5rem]"
           >
             <div aria-hidden className="pointer-events-none absolute inset-0">
               <Image
@@ -204,12 +204,11 @@ function Services() {
                 style={{ backgroundImage: service.scrim }}
               />
             </div>
-            <div className="relative h-[16.5rem] w-full shrink-0 rounded-br-[43.75rem]" />
+            <div className="relative min-h-0 w-full flex-1 rounded-br-[43.75rem]" />
             {/* `relative` is load-bearing: the art sits in an absolutely
                 positioned overlay, which would otherwise paint over this
                 static text. */}
-            <div className="relative flex h-[6.625rem] w-full shrink-0 items-start px-[1.5rem]">
-
+            <div className="relative flex min-h-[6.625rem] w-full shrink-0 items-start px-[1.5rem]">
               <div className="flex min-w-px flex-1 flex-col gap-[0.75rem] text-white">
                 <h3 className="text-[1.25rem] font-semibold tracking-[-0.0125rem]">
                   {service.title}
@@ -411,7 +410,7 @@ function Contact() {
         <div className="relative mt-auto flex w-full flex-col pt-[1rem]">
           <a
             href={`mailto:${CONTACT.email}`}
-            className="btn-fill-center btn-fill-invert flex w-full items-center justify-center bg-plum px-[1.75rem] py-[1.6875rem] text-[1.125rem] font-semibold leading-[1.6875rem] whitespace-nowrap text-white shadow-[0rem_0.625rem_0.75rem_rgba(0,0,0,0.08)] hover:text-plum focus-visible:text-plum"
+            className="btn-raised btn-fill-center btn-fill-invert flex w-full items-center justify-center bg-plum px-[1.75rem] py-[1.6875rem] text-[1.125rem] font-semibold leading-[1.6875rem] whitespace-nowrap text-white hover:text-plum focus-visible:text-plum"
           >
             {HERO.ctaDesktop}
           </a>
@@ -458,15 +457,22 @@ export function Footer({ base = "" }: { base?: string } = {}) {
                   key={social.name}
                   href={social.href}
                   aria-label={social.name}
-                  className="btn-fill-center flex size-[2.25rem] items-center justify-center rounded-[1.125rem] border border-line bg-white text-body hover:border-plum hover:text-white focus-visible:border-plum focus-visible:text-white"
+                  className="social-btn flex size-[2.25rem] items-center justify-center bg-white"
                 >
-                  <span
-                    aria-hidden
-                    className="icon-mask size-[0.875rem]"
-                    style={
-                      { "--icon": `url(${social.icon})` } as React.CSSProperties
-                    }
-                  />
+                  <span aria-hidden className="social-btn__icons size-[0.875rem]">
+                    <span
+                      className="icon-mask"
+                      style={
+                        { "--icon": `url(${social.icon})` } as React.CSSProperties
+                      }
+                    />
+                    <span
+                      className="icon-mask"
+                      style={
+                        { "--icon": `url(${social.icon})` } as React.CSSProperties
+                      }
+                    />
+                  </span>
                 </a>
               ))}
             </div>

@@ -351,15 +351,22 @@ export function Footer({ base = "" }: { base?: string } = {}) {
               key={social.name}
               href={social.href}
               aria-label={social.name}
-              className="btn-fill-center flex size-[2.75rem] items-center justify-center rounded-[6.25rem] bg-white text-body hover:text-white focus-visible:text-white"
+              className="social-btn flex size-[2.75rem] items-center justify-center bg-white"
             >
-              <span
-                aria-hidden
-                className="icon-mask size-[1rem]"
-                style={
-                  { "--icon": `url(${social.icon})` } as React.CSSProperties
-                }
-              />
+              <span aria-hidden className="social-btn__icons size-[1rem]">
+                  <span
+                    className="icon-mask"
+                    style={
+                      { "--icon": `url(${social.icon})` } as React.CSSProperties
+                    }
+                  />
+                  <span
+                    className="icon-mask"
+                    style={
+                      { "--icon": `url(${social.icon})` } as React.CSSProperties
+                    }
+                  />
+                </span>
             </a>
           ))}
         </div>

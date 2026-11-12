@@ -120,31 +120,73 @@
      components, so anything set here loses to a utility regardless of
      specificity. These classes own only geometry and timing. */
 
-  /* Nav CTA: fill growing out of the centre. */
+  /* Shared button feel. On a device with a real pointer, hovering lifts the
+     button onto a soft shadow and pressing sinks it back, so it answers the
+     hand like a physical key. Touch screens skip the lift: a tap would leave
+     it stuck in the raised state. Keyboard focus gets a visible ring. */
+  .btn-fill-center,
+  .btn-wipe {
+    transition:
+      color 320ms var(--ease-out-quint),
+      border-color 420ms var(--ease-out-quint),
+      transform 520ms var(--ease-out-quint),
+      box-shadow 520ms var(--ease-out-quint);
+  }
+
+  /* Resting shadow for desktop CTAs that sit raised off the page. Set here,
+     not as a shadow utility, which would outrank the hover shadow below. */
+  .btn-raised {
+    box-shadow: 0 0.625rem 0.75rem rgba(0, 0, 0, 0.08);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .btn-fill-center:hover,
+    .btn-wipe:hover {
+      transform: translateY(-0.125rem);
+      box-shadow: 0 0.875rem 1.75rem -0.75rem rgba(62, 21, 43, 0.45);
+    }
+  }
+
+  .btn-fill-center:active,
+  .btn-wipe:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 0.25rem 0.5rem -0.25rem rgba(62, 21, 43, 0.35);
+    transition-duration: 140ms;
+  }
+
+  .btn-fill-center:focus-visible,
+  .btn-wipe:focus-visible {
+    outline: 2px solid var(--color-plum);
+    outline-offset: 3px;
+  }
+
+  /* Centre bloom: a circle wider than the button grows out of its middle, so
+     the fill arrives with a curved edge rather than as a shrinking rectangle,
+     and drains back the same way. */
   .btn-fill-center {
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    transition:
-      color 260ms var(--ease-out-quint),
-      border-color 420ms var(--ease-out-quint);
   }
 
   .btn-fill-center::before {
     content: "";
     position: absolute;
-    /* Overspilled for the same reason as .btn-wipe — see the note there. */
-    inset: -0.25rem;
+    left: 50%;
+    top: 50%;
+    width: 160%;
+    aspect-ratio: 1;
     z-index: -1;
+    border-radius: 9999px;
     background: var(--color-plum);
-    transform: scale(0);
-    transition: transform 420ms var(--ease-out-quint);
+    transform: translate(-50%, -50%) scale(0);
+    transition: transform 620ms var(--ease-out-quint);
     backface-visibility: hidden;
   }
 
   .btn-fill-center:hover::before,
   .btn-fill-center:focus-visible::before {
-    transform: scale(1);
+    transform: translate(-50%, -50%) scale(1);
   }
 
   /* For buttons that already sit on brand colour. Filling them with more brand
@@ -155,6 +197,11 @@
     background: #ffffff;
   }
 
+  /* On brand colour the plum ring would vanish; use white. */
+  .btn-fill-invert:focus-visible {
+    outline-color: #ffffff;
+  }
+
   /* Hero CTA: straight wipe, left to right. The right border is transparent, so
      it renders the button's own background and reads as a stroke in the resting
      fill colour once the interior has been wiped over. */
@@ -163,7 +210,6 @@
     position: relative;
     overflow: hidden;
     isolation: isolate;
-    transition: color 200ms var(--ease-out-quint);
   }
 
   .btn-wipe::before {
@@ -179,8 +225,10 @@
     z-index: -1;
     background: var(--color-plum-accent);
     transform: scaleX(0);
-    transform-origin: left center;
-    transition: transform 480ms var(--ease-out-quint);
+    /* At rest the origin is the right edge, so on leave the fill keeps
+       travelling and exits right instead of retracting the way it came. */
+    transform-origin: right center;
+    transition: transform 560ms var(--ease-out-quint);
     /* Keeps the layer on whole pixels while it animates. */
     backface-visibility: hidden;
   }
@@ -188,6 +236,7 @@
   .btn-wipe:hover::before,
   .btn-wipe:focus-visible::before {
     transform: scaleX(1);
+    transform-origin: left center;
   }
 
   /* Nav and footer links: underline expanding from the centre. */
@@ -204,19 +253,108 @@
     height: 1px;
     background: var(--color-plum);
     transform: scaleX(0);
-    /* Grows out of the left edge of the text, following the reading direction. */
-    transform-origin: left center;
-    transition: transform 320ms var(--ease-out-quint);
+    /* Draws in from the left, following the reading direction, and on leave
+       carries on out to the right: one continuous stroke, never a rewind. */
+    transform-origin: right center;
+    transition: transform 460ms var(--ease-out-quint);
   }
 
   .link-underline:hover::after,
   .link-underline:focus-visible::after {
     transform: scaleX(1);
+    transform-origin: left center;
+  }
+
+  .link-underline:focus-visible {
+    outline: none;
   }
 
   /* The footer sits on plum-deep, where a plum underline is near-invisible. */
   .link-underline-light::after {
     background: #ffffff;
+  }
+
+  /* Footer social buttons. Hover is layered so it reads as one gesture: the
+     button lifts onto a soft shadow, a plum fill rises from the bottom edge,
+     and the icon rolls up and out while a copy rolls in beneath it. The icon
+     colour lives here, not in a Tailwind text utility: utilities sit in a
+     later layer and would override the hover's white. */
+  .social-btn {
+    position: relative;
+    color: var(--color-body);
+    overflow: hidden;
+    isolation: isolate;
+    border-radius: 9999px;
+    transition:
+      transform 560ms var(--ease-out-quint),
+      box-shadow 560ms var(--ease-out-quint),
+      color 320ms var(--ease-out-quint);
+  }
+
+  .social-btn::before {
+    content: "";
+    position: absolute;
+    inset: -12%;
+    z-index: -1;
+    border-radius: 9999px;
+    background: radial-gradient(
+      120% 120% at 50% 100%,
+      var(--color-plum) 0%,
+      var(--color-plum) 55%,
+      #7a2c57 100%
+    );
+    transform: translateY(105%) scale(0.6);
+    transform-origin: 50% 100%;
+    transition: transform 560ms var(--ease-out-quint);
+  }
+
+  .social-btn:hover,
+  .social-btn:focus-visible {
+    transform: translateY(-0.1875rem);
+    color: #ffffff;
+    box-shadow:
+      0 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.55),
+      0 0 0 0.25rem rgba(255, 255, 255, 0.12);
+  }
+
+  .social-btn:hover::before,
+  .social-btn:focus-visible::before {
+    transform: translateY(0) scale(1);
+  }
+
+  .social-btn:active {
+    transform: translateY(-0.0625rem) scale(0.96);
+    transition-duration: 160ms;
+  }
+
+  /* Two copies of the icon in one cell: the second waits below and takes the
+     first one's place on hover. */
+  .social-btn__icons {
+    position: relative;
+    display: grid;
+    overflow: hidden;
+  }
+
+  .social-btn__icons > * {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+    transition: transform 520ms var(--ease-out-quint);
+  }
+
+  .social-btn__icons > :last-child {
+    transform: translateY(140%);
+  }
+
+  .social-btn:hover .social-btn__icons > :first-child,
+  .social-btn:focus-visible .social-btn__icons > :first-child {
+    transform: translateY(-140%);
+  }
+
+  .social-btn:hover .social-btn__icons > :last-child,
+  .social-btn:focus-visible .social-btn__icons > :last-child {
+    transform: translateY(0);
+    transition-delay: 50ms;
   }
 
   /* The social SVGs have #333 baked into their paths, so they cannot be

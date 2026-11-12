@@ -66,10 +66,10 @@ export function SmoothScroll() {
       // the tween is longer than the gap between wheel ticks.
       // Settle time to 95% is ln(0.05)/ln(1 - lerp) frames:
       //   0.20 -> ~13 frames (0.22s), near-native
-      //   0.14 -> ~20 frames (0.33s)
-      //   0.08 -> ~36 frames (0.60s)   <- current
-      //   0.05 -> ~58 frames (0.97s), very floaty
-      lerp: 0.04,
+      //   0.12 -> ~24 frames (0.40s)   <- current: smooth, but keeps up with the hand
+      //   0.08 -> ~36 frames (0.60s)
+      //   0.04 -> ~73 frames (1.22s), lags the wheel and reads as drag
+      lerp: 0.12,
       smoothWheel: true,
       // Distance covered per wheel tick, as a multiple of the browser's native
       // step. Raising this is what makes one flick travel further.
@@ -99,7 +99,13 @@ export function SmoothScroll() {
 
       event.preventDefault();
       // Lenis reads the target's scroll margin itself, so no extra offset here.
-      lenis.scrollTo(destination, { offset: 0 });
+      lenis.scrollTo(destination, {
+        offset: 0,
+        // A fixed, eased glide for jumps: lerp alone would rush the start of
+        // a long jump and crawl through its last few hundred pixels.
+        duration: 1.1,
+        easing: (t) => 1 - Math.pow(1 - t, 4),
+      });
     };
 
     // Lenis only intercepts wheel and touch. Keyboard scrolling bypasses it and
