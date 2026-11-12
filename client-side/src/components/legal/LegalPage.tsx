@@ -5,6 +5,8 @@ import {
 import { Footer as FooterMobile } from "@/components/home/HomeMobile";
 import { MobileNav } from "@/components/home/MobileNav";
 import type { LegalDoc, LegalSection } from "@/lib/content";
+import { LegalNextLink } from "./LegalNextLink";
+import { LegalToc } from "./LegalToc";
 
 /**
  * A long-form legal document (terms, privacy) inside the site's own header
@@ -74,27 +76,12 @@ function LegalDesktop({ doc }: { doc: LegalDoc }) {
           <p className="font-outfit text-[0.875rem] font-bold text-ink uppercase">
             On this page
           </p>
-          <ol className="flex flex-col border-l border-line">
-            {doc.sections.map((s, i) => (
-              <li key={s.id}>
-                <a
-                  href={`#${s.id}`}
-                  className="flex gap-[0.75rem] py-[0.375rem] pl-[1rem] text-[0.875rem] leading-[1.25rem] text-muted transition-colors duration-300 hover:text-plum focus-visible:text-plum"
-                >
-                  <span className="tabular-nums text-faint">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  {s.title}
-                </a>
-              </li>
-            ))}
-          </ol>
-          <a
+          <LegalToc sections={doc.sections} />
+          <LegalNextLink
             href={doc.other.href}
-            className="link-underline mt-[1rem] self-start text-[0.875rem] font-medium text-plum transition-colors duration-300 hover:text-plum-deep focus-visible:text-plum-deep"
-          >
-            Read our {doc.other.label} →
-          </a>
+            label={doc.other.label}
+            className="link-underline mt-[1rem] self-start text-[0.875rem] font-medium text-plum"
+          />
         </nav>
 
         <div className="flex min-w-0 max-w-[45rem] flex-1 flex-col">
@@ -154,12 +141,11 @@ function LegalMobile({ doc }: { doc: LegalDoc }) {
           </article>
         ))}
 
-        <a
+        <LegalNextLink
           href={doc.other.href}
-          className="mt-[1rem] flex w-full items-center justify-center rounded-[0.25rem] border border-line bg-mist p-[0.875rem] text-[0.875rem] font-semibold text-plum"
-        >
-          Read our {doc.other.label}
-        </a>
+          label={doc.other.label}
+          className="mt-[1rem] w-full justify-center rounded-[0.25rem] border border-line bg-mist p-[0.875rem] text-[0.875rem] font-semibold text-plum"
+        />
       </section>
 
       <FooterMobile base="/" />

@@ -465,6 +465,69 @@
     transition-delay: calc(120ms + var(--i, 0) * 60ms);
   }
 
+  /* Legal pages: contents list that follows the reader (LegalToc.tsx). The
+     marker glides between entries; the entry's colour eases with it. */
+  .toc-marker {
+    transition:
+      top 520ms var(--ease-out-quint),
+      height 520ms var(--ease-out-quint);
+  }
+
+  .toc-link,
+  .toc-link > span {
+    transition: color 320ms var(--ease-out-quint);
+  }
+
+  /* Link to the companion document (LegalNextLink.tsx). The arrow takes no
+     room at rest; on hover it opens a slot beside the label and slides in
+     from the left as it fades up, so the label never jumps. */
+  .legal-next {
+    display: inline-flex;
+    align-items: center;
+    transition: color 320ms var(--ease-out-quint);
+  }
+
+  .legal-next__arrow {
+    display: inline-flex;
+    overflow: hidden;
+    max-width: 0;
+    margin-left: 0;
+    opacity: 0;
+    transform: translateX(-0.5rem);
+    transition:
+      max-width 480ms var(--ease-out-quint),
+      margin-left 480ms var(--ease-out-quint),
+      opacity 360ms var(--ease-out-quint),
+      transform 520ms var(--ease-out-quint);
+  }
+
+  .legal-next:hover .legal-next__arrow,
+  .legal-next:focus-visible .legal-next__arrow {
+    max-width: 1.75rem;
+    margin-left: 0.625rem;
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .legal-next:hover {
+    color: var(--color-plum-deep);
+  }
+
+  .legal-next:focus-visible {
+    outline: 2px solid var(--color-plum);
+    outline-offset: 3px;
+  }
+
+  /* Touch screens never hover, so the arrow is simply always there. */
+  @media (hover: none) {
+    .legal-next__arrow {
+      max-width: 1.75rem;
+      margin-left: 0.625rem;
+      opacity: 1;
+      transform: none;
+    }
+  }
+
   /* Scroll reveals (see RevealOnScroll.tsx). Elements start a little low and
      transparent, then rise into place on a long, soft ease-out. The hidden
      state is gated on html.reveal-ready, which only JavaScript sets, so the
