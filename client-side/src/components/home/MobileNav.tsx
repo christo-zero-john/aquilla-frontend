@@ -72,15 +72,25 @@ export function MobileNav({ base = "" }: { base?: string } = {}) {
         </div>
       </div>
 
+      {/* Overlays the page instead of pushing it down, and eases open: its
+          height grows (grid rows 0fr -> 1fr) while the links fade in one
+          after another. Closed, it is inert, so its links are unreachable by
+          keyboard and screen readers, as `hidden` made them before. */}
       <nav
         id={panelId}
         aria-label="Sections"
-        hidden={!open}
-        className="border-t border-line bg-white px-[1rem] pb-[1.25rem]"
+        data-open={open}
+        inert={!open}
+        className="mobile-menu absolute inset-x-0 top-full"
       >
+        <div className="mobile-menu__body bg-white px-[1rem]">
         <ul className="flex flex-col py-6">
-          {NAV_LINKS.map((link) => (
-            <li key={link} className="flex h-16 flex-col border-b border-line">
+          {NAV_LINKS.map((link, i) => (
+            <li
+              key={link}
+              className="mobile-menu__item flex h-16 flex-col border-b border-line"
+              style={{ "--i": i } as React.CSSProperties}
+            >
               <a
                 href={`${base}#${link.toLowerCase()}`}
                 onClick={() => setOpen(false)}
@@ -91,13 +101,19 @@ export function MobileNav({ base = "" }: { base?: string } = {}) {
             </li>
           ))}
         </ul>
-        <a
-          href={`${base}#contact`}
-          onClick={() => setOpen(false)}
-          className="btn-fill-center btn-fill-invert mt-[1rem] flex min-h-[3rem] w-full items-center justify-center rounded-[0.375rem] bg-plum text-[0.9375rem] font-semibold text-white hover:text-plum focus-visible:text-plum"
+        <div
+          className="mobile-menu__item mb-[1.25rem] mt-[1rem]"
+          style={{ "--i": NAV_LINKS.length } as React.CSSProperties}
         >
-          Get a Quote
-        </a>
+          <a
+            href={`${base}#contact`}
+            onClick={() => setOpen(false)}
+            className="btn-fill-center btn-fill-invert flex min-h-[3rem] w-full items-center justify-center rounded-[0.375rem] bg-plum text-[0.9375rem] font-semibold text-white hover:text-plum focus-visible:text-plum"
+          >
+            Get a Quote
+          </a>
+        </div>
+        </div>
       </nav>
     </header>
   );

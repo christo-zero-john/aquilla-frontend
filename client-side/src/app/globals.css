@@ -426,6 +426,45 @@
       hero-plaque-float 7s ease-in-out 1850ms infinite;
   }
 
+  /* Mobile menu (MobileNav.tsx). The panel's height eases between 0 and its
+     content (grid rows 0fr -> 1fr animate where height: auto cannot), then
+     the links fade down into place one after another. Closing runs at once,
+     with no stagger, so dismissing never feels slow. */
+  .mobile-menu {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition:
+      grid-template-rows 560ms var(--ease-out-quint),
+      box-shadow 560ms var(--ease-out-quint);
+  }
+
+  .mobile-menu[data-open="true"] {
+    grid-template-rows: 1fr;
+    box-shadow: 0 1.5rem 2.5rem -1.5rem rgba(62, 21, 43, 0.35);
+  }
+
+  .mobile-menu__body {
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .mobile-menu__item {
+    opacity: 0;
+    transform: translate3d(0, -0.5rem, 0);
+    transition:
+      opacity 200ms ease,
+      transform 300ms var(--ease-out-quint);
+  }
+
+  .mobile-menu[data-open="true"] .mobile-menu__item {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+    transition:
+      opacity 480ms var(--ease-out-quint),
+      transform 620ms var(--ease-out-quint);
+    transition-delay: calc(120ms + var(--i, 0) * 60ms);
+  }
+
   /* Scroll reveals (see RevealOnScroll.tsx). Elements start a little low and
      transparent, then rise into place on a long, soft ease-out. The hidden
      state is gated on html.reveal-ready, which only JavaScript sets, so the
