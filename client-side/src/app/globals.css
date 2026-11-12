@@ -383,6 +383,49 @@
     transition-delay: 50ms;
   }
 
+  /* Hero entrance, pure CSS so it plays on every load before any script.
+     Order: the dark panel uncovers, the headline rises line by line out of
+     its own mask, then the body and CTA fade up, and the plaque settles in
+     before drifting gently. Each element's start is its --hero-delay. */
+  .hero-panel {
+    animation: hero-panel-in 1300ms cubic-bezier(0.76, 0, 0.24, 1) both;
+  }
+
+  .hero-panel--up {
+    animation-name: hero-panel-up;
+  }
+
+  .hero-texture {
+    animation: hero-texture-drift 90s linear infinite;
+  }
+
+  .hero-line {
+    display: block;
+    overflow: hidden;
+    /* Room for descenders, which the mask would otherwise clip. */
+    padding-bottom: 0.12em;
+    margin-bottom: -0.12em;
+  }
+
+  .hero-line__inner {
+    display: block;
+    animation: hero-line-in 1100ms var(--ease-out-quint) backwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  .hero-fade {
+    /* `backwards`, not `both`: once finished the animation lets go of
+       transform, so the CTA's hover lift still works. */
+    animation: hero-fade-in 1000ms var(--ease-out-quint) backwards;
+    animation-delay: var(--hero-delay, 0ms);
+  }
+
+  .hero-plaque {
+    animation:
+      hero-plaque-in 1400ms var(--ease-out-quint) 450ms both,
+      hero-plaque-float 7s ease-in-out 1850ms infinite;
+  }
+
   /* Scroll reveals (see RevealOnScroll.tsx). Elements start a little low and
      transparent, then rise into place on a long, soft ease-out. The hidden
      state is gated on html.reveal-ready, which only JavaScript sets, so the
@@ -429,4 +472,39 @@
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+}
+
+@keyframes hero-panel-in {
+  from { clip-path: inset(0 0 0 100%); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes hero-panel-up {
+  from { clip-path: inset(100% 0 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+
+@keyframes hero-texture-drift {
+  from { background-position: 0 0; }
+  to { background-position: 559px -605px; }
+}
+
+@keyframes hero-line-in {
+  from { transform: translate3d(0, 105%, 0); }
+  to { transform: translate3d(0, 0, 0); }
+}
+
+@keyframes hero-fade-in {
+  from { opacity: 0; transform: translate3d(0, 1rem, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+
+@keyframes hero-plaque-in {
+  from { opacity: 0; transform: scale(0.9) translate3d(0, 1.5rem, 0); filter: blur(6px); }
+  to { opacity: 1; transform: scale(1) translate3d(0, 0, 0); filter: blur(0); }
+}
+
+@keyframes hero-plaque-float {
+  0%, 100% { transform: translate3d(0, 0, 0); }
+  50% { transform: translate3d(0, -0.5rem, 0); }
 }

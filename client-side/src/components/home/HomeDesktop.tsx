@@ -86,7 +86,7 @@ function Hero() {
           split holds at any viewport instead of a fixed width that can overrun
           a narrow one and get clipped. */}
       <div
-        className="absolute inset-y-0 right-0 w-[42.985%] overflow-hidden"
+        className="hero-panel absolute inset-y-0 right-0 w-[42.985%] overflow-hidden"
         style={{
           backgroundImage:
             "linear-gradient(208.956deg, rgb(42,42,42) 9.2845%, rgb(0,0,0) 66.561%)",
@@ -96,7 +96,7 @@ function Hero() {
             pattern keeps its own scale and repeats across the panel. */}
         <div
           aria-hidden
-          className="absolute inset-0"
+          className="hero-texture absolute inset-0"
           style={{
             backgroundImage: "url(/assets/hero/texture.png)",
             backgroundRepeat: "repeat",
@@ -105,7 +105,9 @@ function Hero() {
         />
         {/* Badge centre sits at 52.1% of the panel in the design. */}
         <div className="absolute left-[52.1%] top-[13.41rem] -translate-x-1/2">
-          <HeroPlaque />
+          <div className="hero-plaque">
+            <HeroPlaque />
+          </div>
         </div>
       </div>
 
@@ -116,20 +118,31 @@ function Hero() {
         <div className="flex flex-col gap-[2.5rem]">
           <div className="flex flex-col gap-[1.75rem]">
             <h1 className="text-[3.5rem] leading-[3.5rem] tracking-[-0.14rem] text-white">
-              {HERO.headingLines.map((line) => (
-                <span key={line} className="block">
-                  {line}
+              {HERO.headingLines.map((line, i) => (
+                <span key={line} className="hero-line">
+                  <span
+                    className="hero-line__inner"
+                    style={{ "--hero-delay": `${250 + i * 130}ms` } as React.CSSProperties}
+                  >
+                    {line}
+                  </span>
                 </span>
               ))}
             </h1>
-            <p className="text-[1.125rem] leading-[1.6875rem] text-on-dark">{HERO.body}</p>
+            <p
+              className="hero-fade text-[1.125rem] leading-[1.6875rem] text-on-dark"
+              style={{ "--hero-delay": "620ms" } as React.CSSProperties}
+            >
+              {HERO.body}
+            </p>
           </div>
           {/* The right border is transparent, so it paints the button's own
               background — leaving a stroke in the resting fill colour once the
               wipe has covered the interior. */}
           <a
             href="#contact"
-            className="btn-raised btn-wipe flex items-center justify-center self-start border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1.75rem] py-[0.875rem] font-jakarta text-[1rem] font-semibold whitespace-nowrap text-[#242424] hover:text-white focus-visible:text-white"
+            style={{ "--hero-delay": "760ms" } as React.CSSProperties}
+            className="hero-fade btn-raised btn-wipe flex items-center justify-center self-start border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1.75rem] py-[0.875rem] font-jakarta text-[1rem] font-semibold whitespace-nowrap text-[#242424] hover:text-white focus-visible:text-white"
           >
             {HERO.ctaDesktop}
           </a>

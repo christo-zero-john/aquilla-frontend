@@ -40,22 +40,35 @@ function Hero() {
       <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center justify-center gap-[1.75rem] px-[1.5rem] pb-[5rem]">
         <div className="flex w-full flex-col items-start gap-[1rem] text-center">
           <h1 className="w-full text-[1.75rem] leading-[2.125rem] tracking-[-0.035rem] text-white">
-            {HERO.headingMobile}
+            {HERO.headingLines.map((line, i) => (
+              <span key={line} className="hero-line">
+                <span
+                  className="hero-line__inner"
+                  style={{ "--hero-delay": `${200 + i * 120}ms` } as React.CSSProperties}
+                >
+                  {line}
+                </span>
+              </span>
+            ))}
           </h1>
-          <p className="w-full text-[1rem] leading-[1.5rem] text-on-dark">
+          <p
+            className="hero-fade w-full text-[1rem] leading-[1.5rem] text-on-dark"
+            style={{ "--hero-delay": "520ms" } as React.CSSProperties}
+          >
             {HERO.body}
           </p>
         </div>
         <a
           href="#contact"
-          className="btn-wipe flex min-h-[3rem] items-center justify-center rounded-[0.25rem] border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1rem] py-[0.75rem] font-jakarta text-[0.9375rem] font-semibold whitespace-nowrap text-ink hover:text-white focus-visible:text-white"
+          style={{ "--hero-delay": "640ms" } as React.CSSProperties}
+          className="hero-fade btn-wipe flex min-h-[3rem] items-center justify-center rounded-[0.25rem] border-l-4 border-r-4 border-l-plum-accent border-r-transparent bg-mist px-[1rem] py-[0.75rem] font-jakarta text-[0.9375rem] font-semibold whitespace-nowrap text-ink hover:text-white focus-visible:text-white"
         >
           {HERO.ctaMobile}
         </a>
       </div>
 
       <div
-        className="relative h-[22.375rem] w-full shrink-0"
+        className="hero-panel hero-panel--up relative h-[22.375rem] w-full shrink-0"
         style={{
           backgroundImage:
             "linear-gradient(118.466deg, rgb(42,42,42) 9.2845%, rgb(0,0,0) 66.561%)",
@@ -64,7 +77,7 @@ function Hero() {
         {/* Tiled at natural size, matching the desktop panel. */}
         <div
           aria-hidden
-          className="absolute inset-0"
+          className="hero-texture absolute inset-0"
           style={{
             backgroundImage: "url(/assets/hero/texture.png)",
             backgroundRepeat: "repeat",
@@ -73,7 +86,9 @@ function Hero() {
         />
         {/* Badge centre sits at 48.5% of the frame in the design. */}
         <div className="absolute left-[48.5%] top-[5.956875rem] -translate-x-1/2">
-          <HeroPlaque width={PLAQUE_WIDTH} />
+          <div className="hero-plaque">
+            <HeroPlaque width={PLAQUE_WIDTH} />
+          </div>
         </div>
       </div>
     </section>
