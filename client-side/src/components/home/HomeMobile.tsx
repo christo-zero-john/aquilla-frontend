@@ -36,7 +36,7 @@ const PLAQUE_WIDTH = 141.003;
 
 function Hero() {
   return (
-    <section data-hero className="flex min-h-[48.875rem] w-full flex-col items-start justify-between overflow-hidden bg-plum pb-[1rem] pt-[5.5rem]">
+    <section className="flex min-h-[48.875rem] w-full flex-col items-start justify-between overflow-hidden bg-plum pb-[1rem] pt-[5.5rem]">
       <div className="mx-auto flex w-full max-w-[36rem] flex-col items-center justify-center gap-[1.75rem] px-[1.5rem] pb-[5rem]">
         <div className="flex w-full flex-col items-start gap-[1rem] text-center">
           <h1 className="w-full text-[1.75rem] leading-[2.125rem] tracking-[-0.035rem] text-white">

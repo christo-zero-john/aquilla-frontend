@@ -81,7 +81,7 @@ export function NavBar({ base = "" }: { base?: string } = {}) {
 
 function Hero() {
   return (
-    <section data-hero className="relative h-[43.8125rem] w-full overflow-hidden bg-plum">
+    <section className="relative h-[43.8125rem] w-full overflow-hidden bg-plum">
       {/* Dark panel. Width is the design's 618.98/1440 as a percentage so the
           split holds at any viewport instead of a fixed width that can overrun
           a narrow one and get clipped. */}
