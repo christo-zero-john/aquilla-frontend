@@ -383,6 +383,26 @@
     transition-delay: 50ms;
   }
 
+  /* Scroll reveals (see RevealOnScroll.tsx). Elements start a little low and
+     transparent, then rise into place on a long, soft ease-out. The hidden
+     state is gated on html.reveal-ready, which only JavaScript sets, so the
+     page never depends on the script to be readable. */
+  /* The transition is attached to the revealed state only, so the initial
+     hide is instant (no fade-out on load) and only the entrance animates. */
+  [data-reveal].is-revealed,
+  [data-reveal-stagger].is-revealed > * {
+    transition:
+      opacity 900ms var(--ease-out-quint),
+      transform 1100ms var(--ease-out-quint);
+    transition-delay: var(--reveal-delay, 0ms);
+  }
+
+  .reveal-ready [data-reveal]:not(.is-revealed),
+  .reveal-ready [data-reveal-stagger]:not(.is-revealed) > * {
+    opacity: 0;
+    transform: translate3d(0, 1.75rem, 0);
+  }
+
   /* The social SVGs have #333 baked into their paths, so they cannot be
      recoloured as images. Painting them as a mask over `currentColor` instead
      lets the icon follow the link's text colour on hover. */

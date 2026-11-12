@@ -66,14 +66,16 @@ export function SmoothScroll() {
       // the tween is longer than the gap between wheel ticks.
       // Settle time to 95% is ln(0.05)/ln(1 - lerp) frames:
       //   0.20 -> ~13 frames (0.22s), near-native
-      //   0.12 -> ~24 frames (0.40s)   <- current: smooth, but keeps up with the hand
-      //   0.08 -> ~36 frames (0.60s)
+      //   0.12 -> ~24 frames (0.40s), close to native, little glide
+      //   0.075 -> ~39 frames (0.65s)  <- current: a visible glide that still follows the hand
       //   0.04 -> ~73 frames (1.22s), lags the wheel and reads as drag
-      lerp: 0.12,
+      lerp: 0.075,
       smoothWheel: true,
       // Distance covered per wheel tick, as a multiple of the browser's native
       // step. Raising this is what makes one flick travel further.
-      wheelMultiplier: 1,
+      // Slightly under 1 so each tick travels a little less than native, which
+      // pairs with the glide above to read as calm rather than fast.
+      wheelMultiplier: 0.85,
       // Touch devices already have native momentum; overriding it feels wrong.
       syncTouch: false,
     });

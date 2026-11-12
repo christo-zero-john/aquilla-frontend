@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Outfit, Plus_Jakarta_Sans } from "next/font/google";
 import { SmoothScroll } from "@/components/SmoothScroll";
+import { RevealOnScroll } from "@/components/RevealOnScroll";
 import "./globals.css";
 
 // The three families the Figma file uses.
@@ -42,6 +43,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     >
       <body className="min-h-full">
         <SmoothScroll />
+        <RevealOnScroll />
         {children}
       </body>
     </html>

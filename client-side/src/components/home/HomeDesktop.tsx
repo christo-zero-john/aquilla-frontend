@@ -145,7 +145,7 @@ function About() {
       id="about"
       className="flex h-[38.9375rem] w-full items-center justify-center overflow-hidden px-[5rem]"
     >
-      <div className="flex w-full items-center justify-between gap-[3rem]">
+      <div data-reveal-stagger className="flex w-full items-center justify-between gap-[3rem]">
         <div className="flex min-w-0 max-w-[41.835938rem] flex-1 flex-col items-start gap-[1.25rem]">
           <img
             src="/assets/brand/aquila-eagle.png"
@@ -168,7 +168,7 @@ function Services() {
       id="services"
       className="flex w-full flex-col items-start gap-[4rem] overflow-hidden bg-mist px-[5rem] py-[7.5rem]"
     >
-      <div className="flex w-full flex-col items-center gap-[1rem] rounded-[1.25rem] p-[2.5rem] text-center">
+      <div data-reveal-stagger className="flex w-full flex-col items-center gap-[1rem] rounded-[1.25rem] p-[2.5rem] text-center">
         <h2 className="w-full max-w-[40rem] text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
           {SERVICES_HEADING.desktop}
         </h2>
@@ -177,7 +177,7 @@ function Services() {
         </p>
       </div>
 
-      <div className="flex w-full items-stretch gap-[0.5rem]">
+      <div data-reveal-stagger className="flex w-full items-stretch gap-[0.5rem]">
         {SERVICES.map((service) => (
           <article
             key={service.title}
@@ -231,7 +231,7 @@ function Standards() {
       className="flex w-full items-start overflow-hidden bg-cream px-[4.5rem] py-[7.5rem]"
     >
       <div className="flex w-full flex-col gap-[4rem]">
-        <div className="flex items-start gap-[4rem] xl:gap-[7.5rem]">
+        <div data-reveal-stagger className="flex items-start gap-[4rem] xl:gap-[7.5rem]">
           <h2 className="w-[35rem] min-w-0 shrink text-[3rem] leading-[3.25rem] tracking-[-0.12rem] text-ink-soft">
             {STANDARDS_HEADING.title}
           </h2>
@@ -240,7 +240,7 @@ function Standards() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-[0.125rem]">
+        <div data-reveal-stagger className="flex flex-col gap-[0.125rem]">
           {STANDARDS.map((standard) => (
             <div
               key={standard.code}
@@ -294,7 +294,7 @@ function Contact() {
     >
       <div className="flex min-w-px flex-1 flex-col gap-[2rem]">
         <div className="flex w-full max-w-[39rem] flex-col gap-[2.5rem] pr-[2.5rem]">
-          <div className="flex flex-col gap-[0.75rem]">
+          <div data-reveal-stagger className="flex flex-col gap-[0.75rem]">
             <h2 className="w-full max-w-[33.105688rem] text-[2.5rem] leading-[2.6875rem] tracking-[-0.1rem] text-ink-soft">
               {CONTACT.headingDesktop}
             </h2>
@@ -305,7 +305,7 @@ function Contact() {
             <p className="text-[1.125rem] font-medium tracking-[-0.03375rem] whitespace-nowrap text-ink">
               Enquiry categories
             </p>
-            <div className="flex flex-col gap-[0.75rem]">
+            <div data-reveal-stagger className="flex flex-col gap-[0.75rem]">
               {ENQUIRY_CATEGORIES.map((category, index) => (
                 <div
                   key={`${category}-${index}`}
@@ -328,7 +328,7 @@ function Contact() {
         </div>
 
         <div className="flex w-full flex-col pr-[2.5rem]">
-          <div className="flex w-full flex-col gap-[0.75rem] bg-cream p-[1rem]">
+          <div data-reveal className="flex w-full flex-col gap-[0.75rem] bg-cream p-[1rem]">
             <p className="text-[0.75rem] text-plum-deep">
               {CONTACT.accreditationLabel}
             </p>
@@ -340,6 +340,7 @@ function Contact() {
       </div>
 
       <div
+        data-reveal
         className="relative flex w-[39rem] min-w-0 shrink flex-col gap-[2.5rem] self-stretch overflow-hidden p-[3rem]"
         style={{
           backgroundImage:

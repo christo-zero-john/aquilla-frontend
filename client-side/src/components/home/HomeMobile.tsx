@@ -86,7 +86,7 @@ function Mission() {
       id="about"
       className={`flex w-full flex-col items-center bg-white px-[1.5rem] py-[3rem] ${SECTION_OFFSET}`}
     >
-      <div className="flex w-full max-w-[40rem] flex-col items-center gap-[1.25rem] pt-[1.5rem]">
+      <div data-reveal-stagger className="flex w-full max-w-[40rem] flex-col items-center gap-[1.25rem] pt-[1.5rem]">
         <img
           src="/assets/brand/aquila-eagle.png"
           alt=""
@@ -109,7 +109,7 @@ function Services() {
       id="services"
       className={`flex w-full flex-col gap-[2rem] bg-mist px-[1rem] py-[3rem] ${SECTION_OFFSET}`}
     >
-      <div className="flex max-w-[36rem] flex-col gap-[0.75rem]">
+      <div data-reveal-stagger className="flex max-w-[36rem] flex-col gap-[0.75rem]">
         <h2 className="text-[1.75rem] leading-[2.125rem] text-ink">
           {SERVICES_HEADING.mobile}
         </h2>
@@ -118,7 +118,7 @@ function Services() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-[0.5rem] sm:grid-cols-2">
+      <div data-reveal-stagger className="grid grid-cols-1 gap-[0.5rem] sm:grid-cols-2">
         {SERVICES.map((service) => (
           <article
             key={service.title}
@@ -162,7 +162,7 @@ function Standards() {
       id="standards"
       className={`flex w-full flex-col gap-[1.5rem] bg-cream px-[1rem] py-[3rem] ${SECTION_OFFSET}`}
     >
-      <div className="flex max-w-[36rem] flex-col gap-[0.5rem]">
+      <div data-reveal-stagger className="flex max-w-[36rem] flex-col gap-[0.5rem]">
         <h2 className="text-[1.75rem] leading-[2.125rem] text-ink">
           {STANDARDS_HEADING.title}
         </h2>
@@ -171,7 +171,7 @@ function Standards() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-[0.75rem] gap-y-[3px] sm:grid-cols-2">
+      <div data-reveal-stagger className="grid grid-cols-1 gap-[0.75rem] gap-y-[3px] sm:grid-cols-2">
         {STANDARDS.filter((standard) => standard.onMobile).map((standard) => (
           <article
             key={standard.code}
@@ -214,7 +214,7 @@ function Contact() {
       className={`flex w-full flex-col gap-[2rem] bg-white px-[1rem] py-[3rem] ${SECTION_OFFSET}`}
     >
       <div className="flex w-full max-w-[36rem] flex-col gap-[1.125rem]">
-        <div className="flex flex-col gap-[1rem]">
+        <div data-reveal-stagger className="flex flex-col gap-[1rem]">
           <h2 className="text-[1.625rem] leading-[2rem] text-ink">
             {CONTACT.headingDesktop}
           </h2>
@@ -225,7 +225,7 @@ function Contact() {
           <p className="text-[0.875rem] font-medium leading-[1.125rem] text-ink">
             ENQUIRY CATEGORIES
           </p>
-          <div className="flex flex-col gap-[0.1875rem]">
+          <div data-reveal-stagger className="flex flex-col gap-[0.1875rem]">
             {ENQUIRY_CATEGORIES.map((category, index) => (
               <div
                 key={`${category}-${index}`}
@@ -240,7 +240,7 @@ function Contact() {
           </div>
         </div>
 
-        <div className="flex flex-col gap-[0.5rem] rounded-[0.375rem] bg-[#f6f6f6] p-[1rem]">
+        <div data-reveal className="flex flex-col gap-[0.5rem] rounded-[0.375rem] bg-[#f6f6f6] p-[1rem]">
           <p className="text-[0.75rem] font-medium leading-[1rem] text-plum">
             {CONTACT.accreditationLabel}
           </p>
@@ -250,7 +250,7 @@ function Contact() {
         </div>
       </div>
 
-      <div className="relative isolate flex min-h-[25.125rem] w-full flex-col justify-between gap-[4rem] overflow-hidden rounded-[0.75rem] bg-cream p-[1.5rem]">
+      <div data-reveal className="relative isolate flex min-h-[25.125rem] w-full flex-col justify-between gap-[4rem] overflow-hidden rounded-[0.75rem] bg-cream p-[1.5rem]">
         <img
           src="/assets/icons/phone-call-loop-lg.svg"
           alt=""
