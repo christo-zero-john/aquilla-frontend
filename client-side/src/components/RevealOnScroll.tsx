@@ -51,17 +51,11 @@ export function RevealOnScroll() {
 
     document.documentElement.classList.add("reveal-ready");
 
-    const observer = new IntersectionObserver(
+    // Plays the entrance once an element is well into view.
+    const revealObserver = new IntersectionObserver(
       (entries) => {
         for (const entry of entries) {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-revealed");
-          } else if (entry.boundingClientRect.top >= window.innerHeight) {
-            // Wholly below the screen again: arm it to play on the way down.
-            // (Not merely past the -8% trigger line, or it would vanish while
-            // still peeking in at the bottom edge.)
-            entry.target.classList.remove("is-revealed");
-          }
+          if (entry.isIntersecting) entry.target.classList.add("is-revealed");
         }
       },
       // Fire a little before the element is fully in, so it is already moving
@@ -69,8 +63,28 @@ export function RevealOnScroll() {
       { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
     );
 
-    for (const el of targets) observer.observe(el);
-    return () => observer.disconnect();
+    // Re-arms it once it has left the screen entirely through the bottom edge
+    // (you scrolled back up past it), so scrolling down replays the entrance.
+    // This needs its own observer with no margin: the reveal observer only
+    // reports when an element crosses its trigger line, while the element is
+    // still partly on screen, and never again as it moves fully out of view.
+    const resetObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        if (!entry.isIntersecting && entry.boundingClientRect.top > 0) {
+          entry.target.classList.remove("is-revealed");
+        }
+      }
+    });
+
+    for (const el of targets) {
+      revealObserver.observe(el);
+      resetObserver.observe(el);
+    }
+
+    return () => {
+      revealObserver.disconnect();
+      resetObserver.disconnect();
+    };
   }, [pathname]);
 
   return null;
