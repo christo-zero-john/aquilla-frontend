@@ -22,12 +22,12 @@ export const ABOUT_STATEMENT =
 
 /** About-section carousel. Order is the Figma stacking order (index 0 is the base layer). */
 export const CAROUSEL = [
-  { src: "/assets/carousel/automotive.png", alt: "Automotive production line", label: "Automotive" },
-  { src: "/assets/carousel/food-lab.png", alt: "Food testing laboratory", label: "Food safety" },
-  { src: "/assets/carousel/aerospace.png", alt: "Aerospace assembly", label: "Aerospace" },
-  { src: "/assets/carousel/solar.png", alt: "Solar installation", label: "Renewable energy" },
-  { src: "/assets/carousel/pharma.png", alt: "Pharmaceutical production", label: "Pharmaceuticals" },
-  { src: "/assets/carousel/data-center.png", alt: "Data centre", label: "Data centres" },
+  { src: "/assets/carousel/automotive.png", alt: "Automotive production line" },
+  { src: "/assets/carousel/food-lab.png", alt: "Food testing laboratory" },
+  { src: "/assets/carousel/aerospace.png", alt: "Aerospace assembly" },
+  { src: "/assets/carousel/solar.png", alt: "Solar installation" },
+  { src: "/assets/carousel/pharma.png", alt: "Pharmaceutical production" },
+  { src: "/assets/carousel/data-center.png", alt: "Data centre" },
 ] as const;
 
 export const SERVICES_HEADING = {
