@@ -15,6 +15,11 @@ import { usePathname } from "next/navigation";
  * its entrance again. Elements that leave through the top stay revealed, so
  * scrolling up never shows content rising in from the wrong side.
  *
+ * The hero (`data-hero`) runs its own CSS entrance, which plays once per
+ * page load. To replay it, the hero is given `hero-reset` (animations off)
+ * while it is wholly off screen, and loses it as it comes back, which starts
+ * every animation over from the top. Off screen, the reset is never seen.
+ *
  * The hidden starting state only applies once `html.reveal-ready` is set
  * here, so the page is fully visible without JavaScript. Anything already on
  * screen when this runs is marked revealed first, so nothing above the fold
@@ -70,7 +75,20 @@ export function RevealOnScroll() {
     );
 
     for (const el of targets) observer.observe(el);
-    return () => observer.disconnect();
+
+    const heroObserver = new IntersectionObserver((entries) => {
+      for (const entry of entries) {
+        entry.target.classList.toggle("hero-reset", !entry.isIntersecting);
+      }
+    });
+    for (const hero of document.querySelectorAll("[data-hero]")) {
+      heroObserver.observe(hero);
+    }
+
+    return () => {
+      observer.disconnect();
+      heroObserver.disconnect();
+    };
   }, [pathname]);
 
   return null;

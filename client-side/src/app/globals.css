@@ -426,6 +426,13 @@
       hero-plaque-float 7s ease-in-out 1850ms infinite;
   }
 
+  /* Set by RevealOnScroll while the hero is wholly off screen. Dropping the
+     animations and restoring them on return makes them all play again. */
+  [data-hero].hero-reset
+    :is(.hero-panel, .hero-texture, .hero-line__inner, .hero-fade, .hero-plaque) {
+    animation: none;
+  }
+
   /* Mobile menu (MobileNav.tsx). The panel's height eases between 0 and its
      content (grid rows 0fr -> 1fr animate where height: auto cannot), then
      the links fade down into place one after another. Closing runs at once,
