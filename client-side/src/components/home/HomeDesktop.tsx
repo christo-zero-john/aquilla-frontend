@@ -5,7 +5,7 @@ import { HeroPlaque } from "./HeroPlaque";
 import {
   ABOUT_STATEMENT,
   CONTACT,
-  ENQUIRY_CATEGORIES_DESKTOP,
+  ENQUIRY_CATEGORIES,
   FOOTER,
   HERO,
   NAV_LINKS,
@@ -305,7 +305,7 @@ function Contact() {
               Enquiry categories
             </p>
             <div className="flex flex-col gap-[0.75rem]">
-              {ENQUIRY_CATEGORIES_DESKTOP.map((category, index) => (
+              {ENQUIRY_CATEGORIES.map((category, index) => (
                 <div
                   key={`${category}-${index}`}
                   className="flex w-full items-center gap-[0.75rem] border-b border-[rgba(0,0,0,0.09)] py-[0.75rem]"
@@ -391,7 +391,7 @@ function Contact() {
               </div>
               <div className="flex min-w-px flex-1 flex-col gap-[0.25rem]">
                 <p className="text-[0.75rem] text-slate-600">
-                  {CONTACT.accreditationLabel}
+                  {CONTACT.phoneLabel}
                 </p>
                 <a
                   href={`tel:${CONTACT.phone.replace(/\s/g, "")}`}

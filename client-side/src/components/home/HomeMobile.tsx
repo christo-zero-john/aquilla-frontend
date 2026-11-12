@@ -5,7 +5,7 @@ import { AboutCarousel } from "./AboutCarousel";
 import {
   ABOUT_STATEMENT,
   CONTACT,
-  ENQUIRY_CATEGORIES_DESKTOP,
+  ENQUIRY_CATEGORIES,
   FOOTER,
   HERO,
   SERVICES,
@@ -225,7 +225,7 @@ function Contact() {
             ENQUIRY CATEGORIES
           </p>
           <div className="flex flex-col gap-[0.1875rem]">
-            {ENQUIRY_CATEGORIES_DESKTOP.map((category, index) => (
+            {ENQUIRY_CATEGORIES.map((category, index) => (
               <div
                 key={`${category}-${index}`}
                 className="flex w-full items-center gap-[0.75rem] border-b border-[rgba(0,0,0,0.09)] py-[0.75rem] last:border-b-0"

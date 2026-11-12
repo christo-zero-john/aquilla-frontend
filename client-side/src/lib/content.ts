@@ -14,11 +14,11 @@ export const HERO = {
   headingMobile: "Clarity to see further. Precision to meet the standard.",
   body: "Acquila supports organisations across management system and industry standards with practical implementation, training, and readiness support.",
   ctaDesktop: "Get a Quote",
-  ctaMobile: "Request Quote Process",
+  ctaMobile: "Request a Quote",
 } as const;
 
 export const ABOUT_STATEMENT =
-  "We turn complex standard requirements into clear, workable systems - helping organisations strengthen processes, responsibilities, documentation, and team readiness across day-to-day operations.";
+  "We turn complex standard requirements into clear, workable systems — helping organisations strengthen processes, responsibilities, documentation, and team readiness across day-to-day operations.";
 
 /** About-section carousel. Order is the Figma stacking order (index 0 is the base layer). */
 export const CAROUSEL = [
@@ -180,24 +180,19 @@ export const CONTACT = {
   cardSub: "Contact the Acquila team directly.",
   email: "directors@acquilacert.com",
   phone: "+91 80782 30105",
+  phoneLabel: "CALL US",
   accreditationLabel: "ACCREDITATION STATUS",
   accreditationBody:
     "Acquila is currently in the process of accreditation. Contact the team for the latest service scope and status.",
 } as const;
 
 /**
- * The desktop frame lists four rows, two of which read "Documentation support";
- * the mobile frame lists three. Both are reproduced as drawn.
+ * One list for both breakpoints, matching the enquiry types named in
+ * CONTACT.body. (The Figma desktop frame repeated "Documentation support".)
  */
-export const ENQUIRY_CATEGORIES_DESKTOP = [
+export const ENQUIRY_CATEGORIES = [
   "Certification support",
-  "Documentation support",
-  "Documentation support",
-  "Commercial quotations",
-] as const;
-
-export const ENQUIRY_CATEGORIES_MOBILE = [
-  "Certification support",
+  "Training & awareness",
   "Documentation support",
   "Commercial quotations",
 ] as const;
