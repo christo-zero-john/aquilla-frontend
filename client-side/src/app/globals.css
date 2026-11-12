@@ -76,6 +76,11 @@
    layered one, so an unlayered `img { max-width: 100% }` silently beats
    Tailwind's `max-w-none` utility and clamps the design's oversized art. */
 @layer base {
+  /* The grey tap box browsers paint over links would cover the press states. */
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     background: #ffffff;
     color: var(--color-body);
@@ -625,6 +630,83 @@
     -webkit-mask-size: contain;
     mask-size: contain;
     transition: background-color 260ms var(--ease-out-quint);
+  }
+}
+
+/* Touch press states (TouchPress.tsx adds .is-pressed for at least 280ms).
+   Phones cannot hover, so a tap plays each element's hover look as a press:
+   fills bloom or wipe in, labels take their hover colour, underlines draw,
+   social buttons lift and roll, everything gives slightly under the finger.
+   These sit in the utilities layer with an extra class of specificity so
+   they outrank the colour utilities (text-white, text-ink...) on the same
+   elements, which a components-layer rule never could. */
+@layer utilities {
+  @media (hover: none) {
+    .is-pressed:is(.btn-fill-center, .btn-wipe, .social-btn, .legal-next) {
+      transform: scale(0.97);
+      transition-duration: 160ms;
+    }
+
+    .is-pressed.btn-fill-center::before {
+      transform: translate(-50%, -50%) scale(1);
+      transition-duration: 280ms;
+    }
+
+    .is-pressed.btn-fill-center {
+      color: #ffffff;
+    }
+
+    .is-pressed.btn-fill-center.btn-fill-invert {
+      color: var(--btn-press-color, var(--color-plum));
+    }
+
+    .is-pressed.btn-wipe::before {
+      transform: scaleX(1);
+      transform-origin: left center;
+      transition-duration: 280ms;
+    }
+
+    .is-pressed.btn-wipe {
+      color: #ffffff;
+    }
+
+    .is-pressed.link-underline::after,
+    .is-pressed .link-underline::after {
+      transform: scaleX(1);
+      transform-origin: left center;
+      transition-duration: 260ms;
+    }
+
+    .is-pressed.social-btn {
+      transform: translateY(-0.125rem) scale(0.96);
+      color: #ffffff;
+      box-shadow:
+        0 0.75rem 1.5rem -0.5rem rgba(0, 0, 0, 0.55),
+        0 0 0 0.25rem rgba(255, 255, 255, 0.12);
+    }
+
+    .is-pressed.social-btn::before {
+      transform: translateY(0) scale(1);
+      transition-duration: 280ms;
+    }
+
+    .is-pressed.social-btn .social-btn__icons > :first-child {
+      transform: translateY(-140%);
+    }
+
+    .is-pressed.social-btn .social-btn__icons > :last-child {
+      transform: translateY(0);
+    }
+
+    .is-pressed.legal-next {
+      color: var(--color-plum-deep);
+    }
+
+    /* Plain links (nav menu, contact rows, footer) dim under the finger. */
+    a.is-pressed:not(.btn-fill-center, .btn-wipe, .social-btn, .legal-next, .link-underline) {
+      opacity: 0.6;
+      transition: opacity 120ms ease;
+    }
   }
 }
 

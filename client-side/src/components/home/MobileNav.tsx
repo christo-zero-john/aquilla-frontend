@@ -47,7 +47,7 @@ export function MobileNav({ base = "" }: { base?: string } = {}) {
         <div className="flex items-center gap-[0.5rem]">
           <a
             href={`${base}#contact`}
-            className="btn-fill-center btn-fill-invert hidden min-h-[2.75rem] shrink-0 items-center rounded-[0.25rem] bg-plum-deep px-[1rem] text-[0.875rem] font-semibold whitespace-nowrap text-white hover:text-plum-deep focus-visible:text-plum-deep min-[360px]:inline-flex"
+            className="btn-fill-center btn-fill-invert hidden min-h-[2.75rem] [--btn-press-color:var(--color-plum-deep)] shrink-0 items-center rounded-[0.25rem] bg-plum-deep px-[1rem] text-[0.875rem] font-semibold whitespace-nowrap text-white hover:text-plum-deep focus-visible:text-plum-deep min-[360px]:inline-flex"
           >
             Get Quote
           </a>
